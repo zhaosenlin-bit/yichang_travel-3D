@@ -12,7 +12,7 @@ import { useAudio } from '../../../../context/AudioManager';
 
 // ============================================
 // ============================================
-// 🌊 CONTACT ROOM v2 - MESSAGE IN A BOTTLE
+// 🌊 CONTACT ROOM v2 - 三峡人家·给屈原留言
 // Immersive experience: write message, roll into bottle, throw
 // ============================================
 import { useTexture } from '@react-three/drei';
@@ -403,8 +403,8 @@ const ContactRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
                 position={isMobile ? [-1.2, 0.5, -10] : [-3, 0.5, -10]}
                 rotation={[0, 0.2, 0]}
                 texturePath="/textures/contact/beczka.webp"
-                label="LINKEDIN"
-                onClick={() => window.open('https://www.linkedin.com/in/tomasz-szmajda-259337305/', '_blank')}
+                label="土家吊脚楼"
+                onClick={() => window.open('https://zh.wikipedia.org/wiki/%E6%8C%82%E8%84%9A%E6%A5%BC', '_blank')}
                 paintOnBeforeCompile={onBeforeCompile}
                 paintUniforms={uniformsData}
             />
@@ -413,8 +413,8 @@ const ContactRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
                 position={isMobile ? [-1.5, -0.3, -7] : [-5, -0.3, -8]}
                 rotation={[0, 0.3, 0]}
                 texturePath="/textures/contact/beczka.webp"
-                label="GITHUB"
-                onClick={() => window.open('https://github.com/ITomPoland', '_blank')}
+                label="峡江号子"
+                onClick={() => window.open('https://baike.baidu.com/item/%E5%B3%BD%E6%B1%9F%E5%8F%B7%E5%AD%90', '_blank')}
                 paintOnBeforeCompile={onBeforeCompile}
                 paintUniforms={uniformsData}
             />
@@ -423,8 +423,8 @@ const ContactRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
                 position={isMobile ? [1.2, 0.5, -10] : [3, 0.5, -10]}
                 rotation={[0, -0.2, 0]}
                 texturePath="/textures/contact/beczka.webp"
-                label="FACEBOOK"
-                onClick={() => window.open('https://www.facebook.com/people/ITom/61586563487664/', '_blank')}
+                label="西兰卡普"
+                onClick={() => window.open('https://baike.baidu.com/item/%E8%A5%BF%E5%85%B0%E5%8D%A1%E6%99%AE', '_blank')}
                 paintOnBeforeCompile={onBeforeCompile}
                 paintUniforms={uniformsData}
             />
@@ -433,8 +433,8 @@ const ContactRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
                 position={isMobile ? [1.5, -0.3, -7] : [5, -0.3, -8]}
                 rotation={[0, -0.3, 0]}
                 texturePath="/textures/contact/beczka.webp"
-                label="INSTAGRAM"
-                onClick={() => window.open('https://www.instagram.com/itom.dev/', '_blank')}
+                label="摆手舞"
+                onClick={() => window.open('https://baike.baidu.com/item/%E6%91%86%E6%89%8B%E8%88%9E', '_blank')}
                 paintOnBeforeCompile={onBeforeCompile}
                 paintUniforms={uniformsData}
             />
@@ -443,7 +443,7 @@ const ContactRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
                 position={isMobile ? [0, -0.7, -6] : [0, -0.7, -7]}
                 rotation={[0, 0, 0]}
                 texturePath="/textures/contact/beczka.webp"
-                label="MESSAGE"
+                label="给屈原留言"
                 onClick={handleMailSelect}
                 paintOnBeforeCompile={onBeforeCompile}
                 paintUniforms={uniformsData}
