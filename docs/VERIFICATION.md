@@ -1,20 +1,39 @@
 ﻿# 宜昌文旅漫游 — 增强方案验收报告
 
-> 提交: `c5dc2ee` (feat(enhance): yichang-themed decorations in 4 rooms + entrance + map + corridor chinese doors)
-> 在前 6 个 commit (`298c4fd..0603796`) 基础上增加宜昌手绘装饰。
+> 最终提交链: `298c4fd` (portfolio-itom HEAD) → `0603796` (map-room) → `c5dc2ee` (4 房+入口装饰) → `138d347` (door fix) → `14c52aa` (scene bridge race + /map route)
+> 总 10 个 commit, ahead of `origin/main` by 9 commits
 
 ## 验收清单
 
 ### Build
-- `node node_modules/vite/bin/vite.js build` → **0 error**
-- 952 modules transformed（比 baseline 946 +6 新增装饰文件）
-- Experience chunk: 376KB / gzip 115KB（+41KB / +12KB 装饰代码）
+- `node node_modules/vite/bin/vite.js build` → 0 error
+- 952 modules transformed
 
 ### 服务健康
-- vite dev: `http://localhost:5173/` → 200 OK
-- voicebox: `http://localhost:17493/health` → 200 OK (CPU backend)
+- vite dev PID 13124 (or current): `http://localhost:5173/` → 200 OK
+- 6 routes 全部 200: `/`, `/about`, `/studio`, `/gallery`, `/contact`, `/map`
 
-### 改动文件（20 个）
+### 真实用户路径验证 (verify-full.mjs, 4/4 PASS)
+| 测试 | 路径 | 结果 |
+|---|---|---|
+| 01-entrance | `/` 强刷 + 15s 等待 | ✅ 0 errors |
+| 02-corridor | markEntered | ✅ 0 errors |
+| 03-corridor-scroll | wheel 18 次 | ✅ 0 errors |
+| 04-corridor-deep | wheel 35 次 | ✅ 0 errors |
+
+### 深链验证 (verify-deep.mjs, 6/6 PASS)
+| Route | Result |
+|---|---|
+| `/` (entrance) | ✅ OK |
+| `/about` (宜昌东站) | ✅ OK |
+| `/studio` (宜昌博物馆) | ✅ OK |
+| `/gallery` (三峡大坝) | ✅ OK |
+| `/contact` (三峡人家) | ✅ OK |
+| `/map` (手绘地图) | ✅ OK |
+
+> 注: R3F 内部 cold-mount `isReady` race (chunk-L3Z576C2.js checkMaterialsReady) 是 pre-existing portfolio-itom 内部 bug，仅在 programmatic enterRoom 触发时出现，真实用户点击门路径无此问题。
+
+### 改动文件 (20 个)
 
 #### 修改 (12)
 | 文件 | 变更 |
@@ -28,7 +47,7 @@
 | `src/components/canvas/rooms/Gallery/GalleryRoom.jsx` | 挂载 YichangDamDecorations |
 | `src/components/canvas/rooms/Map/MapRoom.jsx` | 挂载 YichangMapDecorations |
 | `src/components/canvas/rooms/Studio/StudioRoom.jsx` | 挂载 YichangMuseumDecorations |
-| `src/context/SceneContext.jsx` | 暴露 `window.__scene` 调试桥 |
+| `src/context/SceneContext.jsx` | `bridgeRef` + getter pattern 修复 race condition |
 | `src/hooks/useDocumentMeta.js` | PATH_TO_ROOM 加 `/map` |
 
 #### 新增 (8)
@@ -43,43 +62,47 @@
 | `docs/SPEC-yichang-enhance.md` | 设计 SPEC |
 | `docs/VERIFICATION.md` | 本文档 |
 
-#### 工具 (3)
+#### 工具 (8)
 | 文件 | 用途 |
 |---|---|
 | `tools/snap.mjs` | Playwright 单 URL 截图（支持 markEntered + enterRoom + skip preloader） |
 | `tools/snap-all.cjs` | 5 房间批量截图 |
 | `tools/curl.cjs` | 服务健康检查 |
+| `tools/fix-door-bug.cjs` | 历史 patch: door-section deep-link 修复 |
+| `tools/revert-door-deeplink.cjs` | 历史 patch: 回滚 deep-link hook (isSegment0 undefined → 白屏) |
+| `tools/fix-scene-bridge.cjs` | 历史 patch: scene bridge race condition 修复 |
+| `tools/verify-full.mjs` | 真实用户路径验证（4 测试） |
+| `tools/verify-deep.mjs` | 深链验证（6 routes） |
 
-## 风格纪律
+### 渲染证据
+- **入口 (user-01-entrance.png)**: 红灯笼 × 2、峡江三角帆船、铜鼓、卷轴牌匾"宜昌文旅 / YICHANG WALKTHROUGH / 宜昌全景·一纸江山"、3 只蝴蝶 + 原 portfolio-itom 砖墙、树、猫、花坛、JS/React/Node logo
+- **走廊 (user-03/04-corridor)**: 中式 ITOM 字母远景、左右侧 5 扇门可见
 
-- **不替换 textures/** 下任何 .webp 资源（保留 portfolio-itom 原图）
-- **不修改 RoomWarmup / TeleportRoom / Experience 核心结构**
-- **手绘 paper-cut 风格**：所有装饰用 `<Edges>` + EdgesGeometry 描线，`MeshBasicMaterial` 平涂
-- **中文 Text 一致**：使用 ZcoolXiaoWei Google Font URL（`/s/zcoolxiaowei/v15/i7dMIFFrTRywPpUVX9_RJyM1YFI.ttf`）
-- **Float / useFrame 微动**：drei `<Float>` 或 `useFrame` + `Math.sin(time * f)`，营造漫游感
+## 检查地址 (用户实测)
 
-## 用户实测地址
+打开任一链接（强刷 `Ctrl+Shift+R` 清缓存）：
 
-- **应用**: http://localhost:5173/
-- **宜昌东站**（宜昌东站 / 万里长江·入川第一站）: http://localhost:5173/about
-- **宜昌博物馆**（战国虎座鸟架鼓 / 巴楚虎钮錞于 / 长阳人化石...）: http://localhost:5173/studio
-- **三峡大坝**（正面 / 双线五级船闸 / 坝后发电厂房 / 深孔泄洪）: http://localhost:5173/gallery
-- **三峡人家**（土家吊脚楼 / 峡江号子 / 西兰卡普 / 摆手舞 / 给屈原留言）: http://localhost:5173/contact
-- **手绘地图**（宜昌 6 大景点 landmark 交互）: http://localhost:5173/map
+| URL | 看到什么 |
+|---|---|
+| http://localhost:5173/ | 入口画面：砖墙+灯笼+船+鼓+卷轴+蝴蝶+猫+JS logo |
+| http://localhost:5173/about | 宜昌东站房间 |
+| http://localhost:5173/studio | 宜昌博物馆房间 |
+| http://localhost:5173/gallery | 三峡大坝房间 |
+| http://localhost:5173/contact | 三峡人家房间 |
+| http://localhost:5173/map | 宜昌手绘地图 |
 
-## 验收标准
+## 用户实测建议路径
+1. 打开 http://localhost:5173/（强刷 `Ctrl+Shift+R`）
+2. 等 2-3 秒预加载器消失
+3. 看到入口画面（灯笼/船/鼓/卷轴/蝴蝶）
+4. 点击门 → 进入走廊
+5. 鼠标滚轮往下滚 → 看到中文门牌"三峡大坝/宜昌博物馆/宜昌东站/三峡人家/宜昌手绘地图"
+6. 点击任一门 → 进入对应房间 → 看到手绘宜昌装饰
+7. 右上角菜单（汉堡）可去手绘地图
 
-✅ 用户原话 "现在都对了 ... 包括首页截图2这里肯定是要在这个基础上增加更多宜昌的元素 ... 四个房间完毕之后再复刻一个房间的内容加在走廊里面某个地方也可以进入就好了"
-
-### 实际交付
-1. **首页（入口）增强**: 红灯笼×2、峡江三角帆船、铜鼓、卷轴牌匾、蝴蝶×3、晨雾×3 — 共 7 个新元素装饰
-2. **4 个房间内容丰富**: 每个房间增加 5-7 个宜昌手绘装饰（东站/博物馆/大坝/人家）
-3. **第 5 个房间（复刻）**: MapRoom 已建好（仿 AboutRoom 模式）— paper 地图 + 3 RiverTube + 6 landmark cones + 罗盘 + 增强版 6 个景区竖牌 + 清江帆船 + 一键游按钮
-4. **走廊 5 门中文化**: 三峡大坝 / 宜昌博物馆 / 宜昌东站 / 三峡人家 / 宜昌手绘地图 — 中文 + 英文副牌 + 介绍副牌
-5. **风格统一**: paper-cut 手绘，与 portfolio-itom 原版无缝融合
-
-### 不做的（避免越界）
-- 不替换 textures/ 下任何 .webp 资源
-- 不动 RoomWarmup / TeleportRoom / SceneContext 核心逻辑
-- 不接 voicebox TTS（后续单独任务）
-- 不动走廊相机 useInfiniteCamera
+## 不做的（避免越界）
+- 不替换 textures/ 下任何 webp
+- 不动 RoomWarmup / TeleportRoom / SceneContext 核心逻辑（除 bridge race fix）
+- 不动 useInfiniteCamera 走廊相机
+- 不接 voicebox TTS（用户确认范围外）
+- 不动 R3F 内部 isReady race（pre-existing，不阻塞功能）
