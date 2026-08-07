@@ -107,7 +107,6 @@ const DoorSection = ({
     // Get exit request signal from context
     const {
         currentRoom, // We need to know if the global room changed (teleportation)
-        hasEntered,  // [DEEP LINK] Did the user enter the corridor?
         exitRequested,
         clearExitRequest,
         exitRoom: contextExitRoom,
@@ -154,21 +153,6 @@ const DoorSection = ({
             handleClick({ stopPropagation: () => { }, isTeleport: true }); // Trigger click simulation with TELEPORT flag
         }
     }, [pendingDoorClick, doorId, segmentIndex, isOpen, isAnimating]);
-    // === DEEP LINK AUTO-SHOW ===
-    // When the global currentRoom matches this door (e.g. via URL deeplink or programmatic enterRoom),
-    // and we're on segment 0, force the room to render and set isInsideRoom=true
-    // so the deep-link flow works without the camera-teleport dance.
-    useEffect(() => {
-        if (currentRoom === doorId && segmentIndex === 0 && hasEntered && !shouldRenderRoom) {
-            setShouldRenderRoom(true);
-            setIsInsideRoom(true);
-        }
-        // If user navigates away, also reset isInsideRoom if not currently the active door
-        if (currentRoom !== doorId && isInsideRoom && isSegment0) {
-            setIsInsideRoom(false);
-        }
-    }, [currentRoom, doorId, hasEntered, shouldRenderRoom, isInsideRoom, segmentIndex]);
-
 
     // --- SILENT RESET FOR TELEPORTATION ---
     // If a teleport starts (users clicks map), and we are inside THIS room,
