@@ -36,7 +36,7 @@ const NATURAL_TILE_W = (1582 / 94) * 0.15;
  * Memoized room geometry to prevent re-renders and improve performance.
  * Contains corridor + giant room at the end.
  */
-const RoomInterior = memo(({ label, showRoom, onReady, isExiting }) => {
+const RoomInterior = memo(({ roomId, label, showRoom, onReady, isExiting }) => {
     const { corridorWidth, corridorHeight, corridorDepth, roomWidth, roomHeight, roomDepth } = ROOM_CONFIG;
     const halfDepth = corridorDepth / 2;
     const roomZ = -corridorDepth - roomDepth / 2;
@@ -121,14 +121,19 @@ const RoomInterior = memo(({ label, showRoom, onReady, isExiting }) => {
         roomBackWall: new THREE.PlaneGeometry(roomWidth, roomHeight)
     }), []);
 
-    const isGallery = label === 'THE GALLERY';
+    const isGallery = roomId === 'gallery';
+    const isStudio = roomId === 'studio';
+    const isAbout = roomId === 'about';
+    const isContact = roomId === 'contact';
+    const isMap = roomId === 'map';
+    const isYichangRoom = isGallery || isStudio || isAbout || isContact || isMap;
 
     // Trigger onReady for generic rooms (which don't have their own component to do it)
     useEffect(() => {
-        if (showRoom && !['THE GALLERY', 'THE STUDIO', 'THE ABOUT', "LET'S CONNECT"].includes(label)) {
+        if (showRoom && !isYichangRoom) {
             onReady?.();
         }
-    }, [showRoom, label, onReady]);
+    }, [showRoom, isYichangRoom, onReady]);
 
     return (
         <group position={[0, -0.149, 0]}>
@@ -200,28 +205,28 @@ const RoomInterior = memo(({ label, showRoom, onReady, isExiting }) => {
                                 <GalleryRoom showRoom={showRoom} onReady={onReady} isExiting={isExiting} />
                             </Suspense>
                         </group>
-                    ) : label === 'THE STUDIO' ? (
+                    ) : isStudio ? (
                         // === NEW STUDIO ROOM ===
                         <group position={[0, -0.5, -corridorDepth]}>
                             <Suspense fallback={null}>
                                 <StudioRoom showRoom={showRoom} onReady={onReady} isExiting={isExiting} />
                             </Suspense>
                         </group>
-                    ) : label === 'THE ABOUT' ? (
+                    ) : isAbout ? (
                         // === NEW ABOUT ROOM ===
                         <group position={[0, -0.5, -corridorDepth]}>
                             <Suspense fallback={null}>
                                 <AboutRoom showRoom={showRoom} onReady={onReady} isExiting={isExiting} />
                             </Suspense>
                         </group>
-                    ) : label === "LET'S CONNECT" ? (
+                    ) : isContact ? (
                         // === NEW CONTACT ROOM ===
                         <group position={[0, -0.5, -corridorDepth]}>
                             <Suspense fallback={null}>
                                 <ContactRoom showRoom={showRoom} onReady={onReady} isExiting={isExiting} />
                             </Suspense>
                         </group>
-                    ) : label === '二绘地图' ? (
+                    ) : isMap ? (
                         // === NEW MAP ROOM ===
                         <group position={[0, -0.5, -corridorDepth]}>
                             <Suspense fallback={null}>

@@ -95,7 +95,7 @@ const CorridorSegment = ({
                 roomId: 'map',
                 relativeZ: -75,
                 side: 'left',
-                label: '二绘地图',
+                label: '手绘地图',
                 icon: 'M',
                 color: '#f5f0e0'
             }
