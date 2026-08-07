@@ -25,10 +25,10 @@ export const AUDIO_SETTINGS = {
 // Story sections - positions define where each milestone appears
 // Using CHUNK_LENGTH to create looping story (every ~40 units restarts)
 const STORY_MILESTONES = [
-    { id: 'intro', position: [0, 0, -15], type: 'intro', title: 'ITOM', subtitle: '< creative developer />' },
-    { id: 'awards', position: [0, 0, -55], type: 'awards', title: 'AWARDS', subtitle: '1x SOTD Winner • 1x CSS Winner' },
-    { id: 'journey', position: [0, 0, -95], type: 'journey', title: 'JOURNEY', subtitle: 'Computer Science @ University of Opole' },
-    { id: 'skills', position: [0, 0, -135], type: 'skills', title: 'SKILLS', subtitle: 'React • Three.js • GSAP • Creative Code' },
+    { id: 'intro', position: [0, 0, -15], type: 'intro', title: '宜昌东站', subtitle: '万里长江·东出九省入川第一站' },
+    { id: 'awards', position: [0, 0, -55], type: 'awards', title: '火车头高铁', subtitle: '2012·火车头·汉宜宜万高速全国互通' },
+    { id: 'journey', position: [0, 0, -95], type: 'journey', title: '长江中游', subtitle: '万里长江·世界水电之都·三峡起点' },
+    { id: 'skills', position: [0, 0, -135], type: 'skills', title: '峡江橙', subtitle: '朝天生梨·江陵桃·土家丝素·鹿角茶' },
 ];
 
 const AboutRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
@@ -252,7 +252,7 @@ const AboutRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
             <group ref={airplaneGroupRef} position={[0, -0.3, 1]}>
                 <PaperAirplane
                     scale={0.8}
-                    color="#faf8f5"
+                    color="#FFD06B"
                 />
             </group>
 
