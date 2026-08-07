@@ -8,53 +8,53 @@
  */
 
 export const PLATFORM_CONFIG = {
-    youtube: {
-        color: '#FF0000',
-        accentColor: '#cc0000',
-        icon: '▶',
-        label: 'YouTube',
-        shape: 'tv', // Wide CRT style
+    warring: {
+        color: '#B33A3A',
+        accentColor: '#7a2222',
+        icon: '战',
+        label: '战国',
+        shape: 'tv',
     },
-    blog: {
-        color: '#4A90D9',
-        accentColor: '#2d6cb5',
-        icon: '📝',
-        label: 'Blog',
-        shape: 'monitor', // Thin desktop monitor
+    bachu: {
+        color: '#C97A2F',
+        accentColor: '#8a4a14',
+        icon: '巴',
+        label: '巴楚',
+        shape: 'monitor',
     },
-    tiktok: {
-        color: '#00F2EA',
-        accentColor: '#FF0050',
-        icon: '🎵',
-        label: 'TikTok',
-        shape: 'phone', // Vertical phone
-    },
-    instagram: {
-        color: '#E1306C',
-        accentColor: '#C13584',
-        icon: '📷',
-        label: 'Instagram',
+    tang: {
+        color: '#7E5BB8',
+        accentColor: '#54377a',
+        icon: '唐',
+        label: '唐宋',
         shape: 'phone',
     },
-    x: {
-        color: '#000000',
-        accentColor: '#14171A',
-        icon: '𝕏',
-        label: 'X (Twitter)',
+    ming: {
+        color: '#3D7E5C',
+        accentColor: '#1f5037',
+        icon: '明',
+        label: '元明',
         shape: 'monitor',
     },
-    linkedin: {
-        color: '#0077B5',
-        accentColor: '#005E93',
-        icon: 'in',
-        label: 'LinkedIn',
+    porcelain: {
+        color: '#5499C7',
+        accentColor: '#2b6190',
+        icon: '瓷',
+        label: '清瓷',
         shape: 'monitor',
     },
-    codrops: {
-        color: '#0099FF',
-        accentColor: '#0077CC',
-        icon: '💧',
-        label: 'Codrops',
+    folklore: {
+        color: '#C2185B',
+        accentColor: '#7a0f3a',
+        icon: '俗',
+        label: '民国',
+        shape: 'phone',
+    },
+    modern: {
+        color: '#1A6FA8',
+        accentColor: '#0e3f63',
+        icon: '今',
+        label: '当代',
         shape: 'monitor',
     },
 };
@@ -64,8 +64,8 @@ const RAW_CONTENT_DATA = [
     // ============ YouTube Videos ============
     {
         id: 'yt-001',
-        platform: 'youtube',
-        title: 'I Built a Website for Young Multi for $__,___',
+        platform: 'warring',
+        title: '战国·虎座鸟架鼓',
         description: 'It\'s late 2025, we\'re flying to space, and Young Multi... still didn\'t have his own website. So I took matters into my own hands.',
         frontTexture: '/textures/studio/tvfront_filmikprojektdlamultiego.webp',
         paintedFrontTexture: '/textures/studio/tvfront_filmikprojektdlamultiego_painted.webp',
@@ -77,8 +77,8 @@ const RAW_CONTENT_DATA = [
     },
     {
         id: 'yt-002',
-        platform: 'youtube',
-        title: 'Turning an ordinary selfie into a professional AI photoshoot! How Google Nano Banana transformed my photo! (For Free)',
+        platform: 'warring',
+        title: '巴楚·虎钮錞于',
         description: '📸 Watch how I turned a basic selfie into a professional photoshoot using a free AI tool from Google! In this step-by-step tutorial, I reveal my secret trick for crafting perfect prompts, even if you\'re a total beginner.',
         frontTexture: '/textures/studio/tvfront_filmikedytowaniezdjec.webp',
         paintedFrontTexture: '/textures/studio/tvfront_filmikedytowaniezdjec_painted.webp',
@@ -90,8 +90,8 @@ const RAW_CONTENT_DATA = [
     },
     {
         id: 'yt-003',
-        platform: 'youtube',
-        title: 'React Three Fiber Crash Course',
+        platform: 'warring',
+        title: '远古·长阳人化石',
         description: 'Everything you need to know to get started with 3D in React.',
         thumbnail: null,
         url: 'https://www.youtube.com/@itompoland',
@@ -101,8 +101,8 @@ const RAW_CONTENT_DATA = [
     },
     {
         id: 'yt-004',
-        platform: 'youtube',
-        title: 'Shaders for Beginners',
+        platform: 'warring',
+        title: '峡江·船工号子',
         description: 'Introduction to GLSL shaders in WebGL and Three.js.',
         thumbnail: null,
         url: 'https://www.youtube.com/@itompoland',
@@ -112,8 +112,8 @@ const RAW_CONTENT_DATA = [
     },
     {
         id: 'yt-005',
-        platform: 'youtube',
-        title: 'GSAP + Three.js Integration',
+        platform: 'warring',
+        title: '唐宋·峡江玉璧',
         description: 'How to animate 3D objects with GSAP ScrollTrigger.',
         thumbnail: null,
         url: 'https://www.youtube.com/@itompoland',
@@ -123,8 +123,8 @@ const RAW_CONTENT_DATA = [
     },
     {
         id: 'yt-006',
-        platform: 'youtube',
-        title: 'Building Interactive 3D Scenes',
+        platform: 'warring',
+        title: '屈子·离骚',
         description: 'Raycasting, hover effects, and click interactions in Three.js.',
         thumbnail: null,
         url: 'https://www.youtube.com/@itompoland',
@@ -134,8 +134,8 @@ const RAW_CONTENT_DATA = [
     },
     {
         id: 'yt-007',
-        platform: 'youtube',
-        title: 'WebGL Performance Deep Dive',
+        platform: 'warring',
+        title: '巴楚·岩棺',
         description: 'Optimizing draw calls, geometry instancing, and more.',
         thumbnail: null,
         url: 'https://www.youtube.com/@itompoland',
@@ -145,8 +145,8 @@ const RAW_CONTENT_DATA = [
     },
     {
         id: 'yt-008',
-        platform: 'youtube',
-        title: 'Procedural Textures Tutorial',
+        platform: 'warring',
+        title: '明代·土家织锦',
         description: 'Creating textures with noise and math functions.',
         thumbnail: null,
         url: 'https://www.youtube.com/@itompoland',
@@ -158,7 +158,7 @@ const RAW_CONTENT_DATA = [
     // ============ Blog Posts ============
     {
         id: 'blog-001',
-        platform: 'blog',
+        platform: 'bachu',
         title: 'Double Site of the Day confirmed! 🏆🏆',
         description: 'You\'ve probably noticed I\'ve been sharing a bunch of SOTD certificates on my stories lately. Yes, it\'s true—the YOUNG MULTI project officially scored a "double" and got recognized on the international stage...',
         frontTexture: '/textures/studio/monitorfront_postnafbdoublewinner.webp',
@@ -170,7 +170,7 @@ const RAW_CONTENT_DATA = [
     },
     {
         id: 'blog-002',
-        platform: 'blog',
+        platform: 'bachu',
         title: 'The Hand-Drawn Aesthetic',
         description: 'How I achieved a sketch-like visual style using shaders.',
         thumbnail: null,
@@ -180,7 +180,7 @@ const RAW_CONTENT_DATA = [
     },
     {
         id: 'blog-003',
-        platform: 'blog',
+        platform: 'bachu',
         title: 'Optimizing 3D for the Web',
         description: 'Performance tips for smooth 60fps 3D experiences.',
         thumbnail: null,
@@ -190,7 +190,7 @@ const RAW_CONTENT_DATA = [
     },
     {
         id: 'blog-004',
-        platform: 'blog',
+        platform: 'bachu',
         title: 'Creative Coding Journey',
         description: 'My path from traditional dev to creative development.',
         thumbnail: null,
@@ -200,7 +200,7 @@ const RAW_CONTENT_DATA = [
     },
     {
         id: 'blog-005',
-        platform: 'blog',
+        platform: 'bachu',
         title: 'The Future of Web Experiences',
         description: 'Where I think interactive web is heading.',
         thumbnail: null,
@@ -210,7 +210,7 @@ const RAW_CONTENT_DATA = [
     },
     {
         id: 'blog-006',
-        platform: 'blog',
+        platform: 'bachu',
         title: 'Design Systems for 3D',
         description: 'Creating consistent 3D component libraries.',
         thumbnail: null,
@@ -220,7 +220,7 @@ const RAW_CONTENT_DATA = [
     },
     {
         id: 'blog-007',
-        platform: 'blog',
+        platform: 'bachu',
         title: 'Accessibility in 3D Web',
         description: 'Making immersive experiences accessible to everyone.',
         thumbnail: null,
@@ -230,7 +230,7 @@ const RAW_CONTENT_DATA = [
     },
     {
         id: 'blog-008',
-        platform: 'blog',
+        platform: 'bachu',
         title: 'Audio in Web Experiences',
         description: 'Adding spatial audio to enhance immersion.',
         thumbnail: null,
@@ -242,7 +242,7 @@ const RAW_CONTENT_DATA = [
     // ============ TikToks ============
     {
         id: 'tt-001',
-        platform: 'tiktok',
+        platform: 'tang',
         title: 'Zaobserwuj mnie na TikToku! ✨',
         description: 'Dzielę się tam wskazówkami z designu, kodowania i nie tylko.',
         frontTexture: '/textures/studio/phonefront_followmeontiktok.webp',
@@ -255,7 +255,7 @@ const RAW_CONTENT_DATA = [
     },
     {
         id: 'tt-002',
-        platform: 'tiktok',
+        platform: 'tang',
         title: 'Coding a door animation 🚪',
         description: 'POV: You open a door in Three.js',
         thumbnail: null,
@@ -266,7 +266,7 @@ const RAW_CONTENT_DATA = [
     },
     {
         id: 'tt-003',
-        platform: 'tiktok',
+        platform: 'tang',
         title: 'When the shader finally works 🎉',
         description: 'The satisfaction of debugging shaders',
         thumbnail: null,
@@ -277,7 +277,7 @@ const RAW_CONTENT_DATA = [
     },
     {
         id: 'tt-004',
-        platform: 'tiktok',
+        platform: 'tang',
         title: 'Day in the life: WebGL Dev',
         description: 'What I do as a creative developer',
         thumbnail: null,
@@ -288,7 +288,7 @@ const RAW_CONTENT_DATA = [
     },
     {
         id: 'tt-005',
-        platform: 'tiktok',
+        platform: 'tang',
         title: 'React vs Three.js POV 😅',
         description: 'The struggle is real',
         thumbnail: null,
@@ -299,7 +299,7 @@ const RAW_CONTENT_DATA = [
     },
     {
         id: 'tt-006',
-        platform: 'tiktok',
+        platform: 'tang',
         title: 'Making a 3D button 🔘',
         description: '30 seconds of pure satisfaction',
         thumbnail: null,
@@ -310,7 +310,7 @@ const RAW_CONTENT_DATA = [
     },
     {
         id: 'tt-007',
-        platform: 'tiktok',
+        platform: 'tang',
         title: 'This shader took 3 hours 💀',
         description: 'Was it worth it? Absolutely.',
         thumbnail: null,
@@ -321,7 +321,7 @@ const RAW_CONTENT_DATA = [
     },
     {
         id: 'tt-008',
-        platform: 'tiktok',
+        platform: 'tang',
         title: 'Hover effects compilation ✨',
         description: 'My favorite micro-interactions',
         thumbnail: null,
@@ -332,7 +332,7 @@ const RAW_CONTENT_DATA = [
     },
     {
         id: 'tt-009',
-        platform: 'tiktok',
+        platform: 'tang',
         title: 'Loading screen ideas 🔄',
         description: 'Creative preloader concepts',
         thumbnail: null,
@@ -343,7 +343,7 @@ const RAW_CONTENT_DATA = [
     },
     {
         id: 'tt-010',
-        platform: 'tiktok',
+        platform: 'tang',
         title: 'Cursor goes brrr 🖱️',
         description: 'Custom cursor madness',
         thumbnail: null,
@@ -354,7 +354,7 @@ const RAW_CONTENT_DATA = [
     },
     {
         id: 'tt-011',
-        platform: 'tiktok',
+        platform: 'tang',
         title: 'Parallax scrolling magic 🪄',
         description: 'Simple but effective',
         thumbnail: null,
@@ -365,7 +365,7 @@ const RAW_CONTENT_DATA = [
     },
     {
         id: 'tt-012',
-        platform: 'tiktok',
+        platform: 'tang',
         title: 'Text animation inspo 📝',
         description: 'Typography that moves',
         thumbnail: null,
