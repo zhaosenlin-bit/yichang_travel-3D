@@ -13,6 +13,7 @@ const DOOR_POSITIONS = [
     { z: -32, side: 'right' },
     { z: -48, side: 'left' },
     { z: -62, side: 'right' },
+    { z: -75, side: 'left' },
 ];
 
 /**

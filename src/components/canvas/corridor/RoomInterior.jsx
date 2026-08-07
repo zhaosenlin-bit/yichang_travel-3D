@@ -8,6 +8,7 @@ import GalleryRoom from '../rooms/Gallery/GalleryRoom';
 import StudioRoom from '../rooms/Studio/StudioRoom';
 import AboutRoom from '../rooms/About/AboutRoom';
 import ContactRoom from '../rooms/Contact/ContactRoom';
+import MapRoom from '../rooms/Map/MapRoom';
 
 // Room configurations
 const ROOM_CONFIG = {
@@ -218,6 +219,13 @@ const RoomInterior = memo(({ label, showRoom, onReady, isExiting }) => {
                         <group position={[0, -0.5, -corridorDepth]}>
                             <Suspense fallback={null}>
                                 <ContactRoom showRoom={showRoom} onReady={onReady} isExiting={isExiting} />
+                            </Suspense>
+                        </group>
+                    ) : label === '二绘地图' ? (
+                        // === NEW MAP ROOM ===
+                        <group position={[0, -0.5, -corridorDepth]}>
+                            <Suspense fallback={null}>
+                                <MapRoom showRoom={showRoom} onReady={onReady} isExiting={isExiting} />
                             </Suspense>
                         </group>
                     ) : (
