@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useCallback, useMemo, useRef } from 'react';
+import { createContext, useContext, useState, useCallback, useMemo, useRef, useEffect } from 'react';
 import { getInitialRoomFromUrl } from '../hooks/useDocumentMeta';
 
 const SceneContext = createContext(null);
@@ -192,7 +192,31 @@ export const SceneProvider = ({ children }) => {
         cancelTeleport
     ]);
 
-    return (
+    // === DEBUG BRIDGE (for Playwright / manual testing) ===
+    // We use a ref to expose the latest values WITHOUT triggering re-renders.
+    // The bridge itself only mounts once; values are updated via ref assignment,
+    // so consumers can read window.__scene.enterRoom() at any time without race.
+    const bridgeRef = useRef({});
+    useEffect(() => {
+        bridgeRef.current.enterRoom = enterRoom;
+        bridgeRef.current.exitRoom = exitRoom;
+        bridgeRef.current.markEntered = markEntered;
+        bridgeRef.current.teleportTo = teleportTo;
+    }, [enterRoom, exitRoom, markEntered, teleportTo]);
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            window.__scene = {
+                enterRoom: (...a) => bridgeRef.current.enterRoom?.(...a),
+                exitRoom: (...a) => bridgeRef.current.exitRoom?.(...a),
+                markEntered: () => bridgeRef.current.markEntered?.(),
+                teleportTo: (...a) => bridgeRef.current.teleportTo?.(...a),
+                get hasEntered() { return hasEntered; },
+                get currentRoom() { return currentRoom; },
+            };
+        }
+    }, [hasEntered, currentRoom]);
+
+        return (
         <SceneContext.Provider value={value}>
             {children}
         </SceneContext.Provider>

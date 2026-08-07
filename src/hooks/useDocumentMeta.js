@@ -44,6 +44,7 @@ const PATH_TO_ROOM = {
     '/gallery': 'gallery',
     '/studio': 'studio',
     '/contact': 'contact',
+    '/map': 'map',
 };
 
 /**
