@@ -36,39 +36,40 @@ export const GALLERY_INTERACTION_AUDIO_SETTINGS = {
 // Define the unique projects and their textures
 const FALLBACK_PROJECTS = [
     {
-        id: 'monetune',
-        title: 'MONETUNE',
+        id: 'dam-front',
+        title: '三峡大坝·正面',
         front: '/textures/gallery/monetuneprzod.webp',
         painted: '/textures/gallery/monetuneprzod_painted.webp',
-        url: 'https://monetune.pl',
-        description: 'MoneTune is a step-by-step blueprint that teaches beginners how to generate passive income using AI-created music. Without any musical skills, you will learn how to easily produce professional tracks, publish them on platforms like Spotify, and monetize your digital assets.',
+        url: 'https://zh.wikipedia.org/wiki/%E4%B8%89%E5%B3%BD%E5%A4%A7%E5%9D%9D',
+        description: '三峡大坝位于湖北宜昌夷陵区,是当今世界最大水利枢纽工程。大坝全长2309米,坝顶高程185米,蓄水至高程175米。它由拦河大坝、水电站和双线五级船闸组成,1994年开工,2009年全部建成。',
         techStack: ['/textures/gallery/wordpresslogo.webp', '/textures/gallery/elementorlogo.webp', '/textures/gallery/phplogo.webp', '/textures/gallery/csslogo.webp']
     },
     {
-        id: 'timber',
-        title: 'TIMBERKITTY',
+        id: 'dam-lock',
+        title: '双线五级船闸',
         front: '/textures/gallery/timberkittyprzod.webp',
         painted: '/textures/gallery/timberkittyprzod_painted.webp',
-        url: 'https://timberkitty.netlify.app',
-        description: 'TimberKitty is an addictive, free-to-play browser arcade game built in pure JavaScript. Players control a lumberjack cat to chop wood, save birds, complete daily missions, and compete on global leaderboards.',
+        url: 'https://zh.wikipedia.org/wiki/%E4%B8%89%E5%B3%BD%E5%A4%A7%E5%9D%9D%E8%88%B9%E9%97%B8',
+        description: '五级船闸全长6.4公里,单向可通过万吨级船队,目前是长江中上游通江达海的重要通道。从坝下到坝上,船只逐级爬升113米,被称"天下第一门"。'
+        ,
         techStack: ['/textures/gallery/jslogo.webp', '/textures/gallery/htmllogo.webp', '/textures/gallery/csslogo.webp', '/textures/gallery/firebaselogo.webp']
     },
     {
-        id: 'young',
-        title: 'YOUNG MULTI',
+        id: 'dam-generator',
+        title: '坝后发电厂房',
         front: '/textures/gallery/youngmultiprzod.webp',
         painted: '/textures/gallery/youngmultiprzod_painted.webp',
-        url: 'https://young-multi-strona.netlify.app',
-        description: 'A sleek, modern concept website dedicated to the Polish rapper and creator Young Multi. It serves as a promotional landing page designed to highlight his personal brand, music, and online presence.',
+        url: 'https://zh.wikipedia.org/wiki/%E4%B8%89%E5%B3%BD%E6%B0%B4%E7%94%B5%E7%AB%99',
+        description: '大坝水电站安装32台70万千瓦水轮发电机组,加上电源电站6台,总装机容量达2250万千瓦,年发电量超1000亿度,为"西电东送"主力电源点。',
         techStack: ['/textures/gallery/reactlogo.webp', '/textures/gallery/tailwindlogo.webp', '/textures/gallery/htmllogo.webp', '/textures/gallery/netlifylogo.webp']
     },
     {
-        id: 'bio',
-        title: 'BIO',
+        id: 'dam-release',
+        title: '深孔泄洪',
         front: '/textures/gallery/bioprzod.webp',
         painted: '/textures/gallery/bioprzod_painted.webp',
-        url: 'https://tomkingbio.netlify.app',
-        description: 'A fast, modern personal bio page serving as a central hub for my digital footprint. It showcases my latest coding projects, web development services, YouTube videos, and recommended music artists.',
+        url: 'https://zh.wikipedia.org/wiki/%E4%B8%89%E5%B3%BD%E5%A4%A7%E5%9D%9D',
+        description: '三峡大坝共有23个深孔、22个表孔和2个排漂孔,每秒可泄洪12.6万立方米,具备应对"万年一遇"洪峰能力。每逢汛期,泄洪奇观吸引无数摄影爱好者前来观赏。',
         techStack: ['/textures/gallery/htmllogo.webp', '/textures/gallery/csslogo.webp', '/textures/gallery/jslogo.webp', '/textures/gallery/netlifylogo.webp']
     },
 ];
