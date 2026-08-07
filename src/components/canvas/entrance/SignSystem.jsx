@@ -1,5 +1,5 @@
 import { useRef, useMemo } from 'react';
-import { useTexture } from '@react-three/drei';
+import { useTexture, Text } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 
@@ -52,6 +52,38 @@ const SignSystem = (props) => {
                         depthWrite={false} // Fix for seeing objects behind transparent parts
                     />
                 </mesh>
+            </group>
+
+            {/* YICHANG WALKTHROUGH — chinese label mounted on same hanging bar */}
+            <group position={[0, 1.3, 0.66]}>
+                <mesh position={[-0.05, 0.45, 0]}>
+                    <planeGeometry args={[2.7, 0.32]} />
+                    <meshBasicMaterial color="#faf5e6" transparent={true} side={THREE.DoubleSide} depthWrite={false} />
+                </mesh>
+                <Text
+                    position={[0, 0.55, 0.02]}
+                    fontSize={0.22}
+                    color="#3a2a1a"
+                    anchorX="center"
+                    anchorY="middle"
+                    font="https://fonts.gstatic.com/s/zcoolxiaowei/v15/i7dMIFFrTRywPpUVX9_RJyM1YFI.ttf"
+                    outlineWidth={0.012}
+                    outlineColor="#fffaf0"
+                    letterSpacing={0.08}
+                >
+                    {"宜昌文旅"}
+                </Text>
+                <Text
+                    position={[0, 0.28, 0.02]}
+                    fontSize={0.085}
+                    color="#7a5a3a"
+                    anchorX="center"
+                    anchorY="middle"
+                    font="https://fonts.gstatic.com/s/zcoolxiaowei/v15/i7dMIFFrTRywPpUVX9_RJyM1YFI.ttf"
+                    letterSpacing={0.05}
+                >
+                    YICHANG WALKTHROUGH
+                </Text>
             </group>
         </group>
     );

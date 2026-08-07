@@ -7,6 +7,7 @@ import { useScene } from '../../../../context/SceneContext';
 import { useAchievements } from '../../../../context/AchievementsContext';
 import { TextureLoader } from 'three';
 import FloatingCodeParticles from './FloatingCodeParticles';
+import YichangMuseumDecorations from './YichangMuseumDecorations';
 import { PositionalAudio } from '@react-three/drei';
 import { useAudio } from '../../../../context/AudioManager';
 import { useStudioContent } from '../../../../hooks/useSanityData';
@@ -593,6 +594,9 @@ const StudioRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
                 towerRotationRef={particleTowerRotation}
                 fallOffsetRef={particleFallOffset}
             />
+
+            {/* === YICHANG MUSEUM DECORATIONS (plaque, tiger-bird drum, artifact holograms, scroll) === */}
+            <YichangMuseumDecorations />
         </group>
     );
 };

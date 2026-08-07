@@ -6,6 +6,7 @@ import { useScene } from "../../../../context/SceneContext";
 import { useAchievements } from "../../../../context/AchievementsContext";
 import { useAudio } from "../../../../context/AudioManager";
 import { isTouchDevice } from "../../../../utils/deviceDetect";
+import YichangMapDecorations from "./YichangMapDecorations";
 
 const MAP_LANDMARKS = [
     { id: "station",   name: "\u5b9c\u660c\u4e1c\u7ad9",   x:  3.0, y:  2.5, color: "#c46a30", hint: "\u4e07\u91cc\u957f\u6c5f\u00b7\u5165\u5ddd\u7b2c\u4e00\u7ad9" },
@@ -251,6 +252,9 @@ const MapRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
             >
                 {isTouch ? "\u70b9\u51fb\u5404\u6807\u67e5\u770b\u4ecb\u7ecd" : "\u60ac\u505c\u9f7f\u5149\u6807\u00b7\u67e5\u770b\u4ecb\u7ecd"}
             </Text>
+
+            {/* === YICHANG MAP DECORATIONS (signboards, sails, water flow, scenic backdrop, compass, button) === */}
+            <YichangMapDecorations />
         </group>
     );
 };

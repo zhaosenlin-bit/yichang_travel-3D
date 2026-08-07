@@ -5,6 +5,7 @@ import * as THREE from 'three';
 import gsap from 'gsap';
 import MessagePaper from './MessagePaper';
 import SocialBarrel from './SocialBarrel';
+import YichangFamilyDecorations from './YichangFamilyDecorations';
 import { useScene } from '../../../../context/SceneContext';
 import GalleryClouds from '../Gallery/GalleryClouds';
 import { useAchievements } from '../../../../context/AchievementsContext';
@@ -511,7 +512,8 @@ const ContactRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
                 />
             </group>
 
-
+            {/* === YICHANG FAMILY DECORATIONS (diaojiaolou, paper boats, baishou ribbons, dragon boat flag, scroll) === */}
+            <YichangFamilyDecorations />
         </group>
     );
 };

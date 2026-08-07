@@ -49,7 +49,9 @@ const CorridorSegment = ({
                 roomId: 'gallery',
                 relativeZ: -18,
                 side: 'left',
-                label: 'THE GALLERY',
+                label: '\u4e09\u5ce1\u5927\u575d',
+                labelEn: 'three gorges dam',
+                subLabel: '\u4e16\u7eaa\u5de5\u7a0b\u00b7\u9ad8\u5ce1\u51fa\u5e73\u6e56',
                 icon: '◈',
                 color: '#f5efe6'
             },
@@ -58,7 +60,9 @@ const CorridorSegment = ({
                 roomId: 'studio',
                 relativeZ: -32,
                 side: 'right',
-                label: 'THE STUDIO',
+                label: '\u5b9c\u660c\u535a\u7269\u9986',
+                labelEn: 'yichang museum',
+                subLabel: '\u4e03\u671d\u6587\u7269\u00b7\u5df4\u695a\u6587\u5316',
                 icon: '▶',
                 color: '#e6f5ef'
             },
@@ -67,7 +71,9 @@ const CorridorSegment = ({
                 roomId: 'about',
                 relativeZ: -48,
                 side: 'left',
-                label: 'THE ABOUT',
+                label: '\u5b9c\u660c\u4e1c\u7ad9',
+                labelEn: 'yichang east station',
+                subLabel: '\u5165\u5ddd\u7b2c\u4e00\u7ad9\u00b7\u4e07\u91cc\u957f\u6c5f',
                 icon: '★',
                 color: '#efe6f5',
                 enterDistance: 25 // Enter deep into the room (clouds are far back)
@@ -77,7 +83,9 @@ const CorridorSegment = ({
                 roomId: 'contact',
                 relativeZ: -62,
                 side: 'right',
-                label: "LET'S CONNECT",
+                label: '\u4e09\u5ce1\u4eba\u5bb6',
+                labelEn: 'three gorges family',
+                subLabel: '\u571f\u5bb6\u98ce\u60c5\u00b7\u7ed9\u5c48\u539f\u7559\u8a00',
                 icon: '✉',
                 color: '#f5e6e6'
             },

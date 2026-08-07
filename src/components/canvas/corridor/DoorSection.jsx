@@ -42,17 +42,25 @@ const DOOR_ALIGN_X = 1.2;
 // Door texture mapping - maps label to texture file
 const DOOR_TEXTURES = {
     'THE GALLERY': '/textures/corridor/doors/drzwiprojekty.webp',
+    '\u4e09\u5ce1\u5927\u575d': '/textures/corridor/doors/drzwiprojekty.webp',
     'THE STUDIO': '/textures/corridor/doors/drzwisocial.webp',
+    '\u5b9c\u660c\u535a\u7269\u9986': '/textures/corridor/doors/drzwisocial.webp',
     'THE ABOUT': '/textures/corridor/doors/drzwiabout.webp',
+    '\u5b9c\u660c\u4e1c\u7ad9': '/textures/corridor/doors/drzwiabout.webp',
     "LET'S CONNECT": '/textures/corridor/doors/drzwikontakt.webp',
+    '\u4e09\u5ce1\u4eba\u5bb6': '/textures/corridor/doors/drzwikontakt.webp',
 };
 
 // Painted (colored) variants for brush-stroke reveal on hover
 const DOOR_PAINTED_TEXTURES = {
     'THE GALLERY': '/textures/corridor/doors/drzwiprojekty_painted.webp',
+    '\u4e09\u5ce1\u5927\u575d': '/textures/corridor/doors/drzwiprojekty_painted.webp',
     'THE STUDIO': '/textures/corridor/doors/drzwisocial_painted.webp',
+    '\u5b9c\u660c\u535a\u7269\u9986': '/textures/corridor/doors/drzwisocial_painted.webp',
     'THE ABOUT': '/textures/corridor/doors/drzwiabout_painted.webp',
+    '\u5b9c\u660c\u4e1c\u7ad9': '/textures/corridor/doors/drzwiabout_painted.webp',
     "LET'S CONNECT": '/textures/corridor/doors/drzwikontakt_painted.webp',
+    '\u4e09\u5ce1\u4eba\u5bb6': '/textures/corridor/doors/drzwikontakt_painted.webp',
 };
 
 
@@ -99,6 +107,7 @@ const DoorSection = ({
     // Get exit request signal from context
     const {
         currentRoom, // We need to know if the global room changed (teleportation)
+        hasEntered,  // [DEEP LINK] Did the user enter the corridor?
         exitRequested,
         clearExitRequest,
         exitRoom: contextExitRoom,
@@ -127,6 +136,11 @@ const DoorSection = ({
         if (label === 'THE STUDIO') return 'studio';
         if (label === 'THE ABOUT') return 'about';
         if (label === "LET'S CONNECT") return 'contact';
+        if (label === '\u4e09\u5ce1\u5927\u575d') return 'gallery';
+        if (label === '\u5b9c\u660c\u535a\u7269\u9986') return 'studio';
+        if (label === '\u5b9c\u660c\u4e1c\u7ad9') return 'about';
+        if (label === '\u4e09\u5ce1\u4eba\u5bb6') return 'contact';
+        if (label === '\u5b9c\u660c\u624b\u7ed8\u5730\u56fe') return 'map';
         return null;
     }, [label, roomId]);
 
@@ -140,6 +154,21 @@ const DoorSection = ({
             handleClick({ stopPropagation: () => { }, isTeleport: true }); // Trigger click simulation with TELEPORT flag
         }
     }, [pendingDoorClick, doorId, segmentIndex, isOpen, isAnimating]);
+    // === DEEP LINK AUTO-SHOW ===
+    // When the global currentRoom matches this door (e.g. via URL deeplink or programmatic enterRoom),
+    // and we're on segment 0, force the room to render and set isInsideRoom=true
+    // so the deep-link flow works without the camera-teleport dance.
+    useEffect(() => {
+        if (currentRoom === doorId && segmentIndex === 0 && hasEntered && !shouldRenderRoom) {
+            setShouldRenderRoom(true);
+            setIsInsideRoom(true);
+        }
+        // If user navigates away, also reset isInsideRoom if not currently the active door
+        if (currentRoom !== doorId && isInsideRoom && isSegment0) {
+            setIsInsideRoom(false);
+        }
+    }, [currentRoom, doorId, hasEntered, shouldRenderRoom, isInsideRoom, segmentIndex]);
+
 
     // --- SILENT RESET FOR TELEPORTATION ---
     // If a teleport starts (users clicks map), and we are inside THIS room,
@@ -251,7 +280,7 @@ const DoorSection = ({
     }, [baseboardTexture]);
 
     // Door dimensions - based on legacy texture aspect ratio (approx 0.376)
-    const doorRatio = label === 'THE STUDIO' ? 0.388 : 0.376;
+    const doorRatio = (label === 'THE STUDIO' || label === '\u5b9c\u660c\u535a\u7269\u9986') ? 0.388 : 0.376;
     const doorHeight = 2.5;
     const doorWidth = doorHeight * doorRatio * 1.12;
 
@@ -1069,7 +1098,23 @@ const DoorSection = ({
                         </mesh>
 
                         {/* === DYNAMIC TEXT FOR SIGNS === */}
-                        {label === 'THE GALLERY' && (
+                        {(label === 'THE GALLERY' || label === 'THE STUDIO' || label === 'THE ABOUT' || label === "LET'S CONNECT") ? null : (
+  <group position={[0, 0, 0.01]}>
+    <Text
+      font="https://fonts.gstatic.com/s/zcoolxiaowei/v15/i7dMIFFrTRywPpUVX9_RJyM1YFI.ttf"
+      fontSize={0.16}
+      color="#111111"
+      anchorX="center"
+      anchorY="middle"
+      maxWidth={0.95}
+      letterSpacing={0.04}
+    >
+      {label}
+    </Text>
+  </group>
+)}
+
+{label === 'THE GALLERY' && (
                             <group position={[0, 0, 0.01]}>
                                 <Text
                                     font="/fonts/CabinSketch-Bold.ttf"

@@ -8,6 +8,7 @@ import TeleportRoom from './corridor/TeleportRoom';
 import RoomWarmup from './corridor/RoomWarmup';
 import useInfiniteCamera from '../../hooks/useInfiniteCamera';
 import SignSystem from './entrance/SignSystem';
+import EntranceDecorations from './entrance/decorations/EntranceDecorations';
 import { useScene } from '../../context/SceneContext';
 
 // Positioning:
@@ -97,6 +98,11 @@ const Experience = ({ isLoaded, onSceneReady, performanceTier }) => {
             {/* Separate SignSystem to avoid fragment nesting issues if any */}
             {!hasEntered && (
                 <SignSystem position={[0, 0, ENTRANCE_DOORS_Z]} />
+            )}
+
+            {/* === YICHANG ENTRANCE DECORATIONS (lanterns, boat, drum, scroll, butterflies, mist) === */}
+            {!hasEntered && (
+                <EntranceDecorations position={[0, 0, ENTRANCE_DOORS_Z]} />
             )}
 
             {/* === INFINITE CORRIDOR (segment -1 SegmentDoors hidden during entrance) === */}

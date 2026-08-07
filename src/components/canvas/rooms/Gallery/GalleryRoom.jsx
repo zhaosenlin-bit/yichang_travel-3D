@@ -10,6 +10,7 @@ gsap.registerPlugin(Observer);
 import { useAchievements } from '../../../../context/AchievementsContext';
 import PaperMaterial from './PaperMaterial';
 import GalleryClouds from './GalleryClouds';
+import YichangDamDecorations from './YichangDamDecorations';
 import { useAudio } from '../../../../context/AudioManager';
 import { usePaintMaterial } from './usePaintMaterial';
 import { useGalleryProjects } from '../../../../hooks/useSanityData';
@@ -605,6 +606,9 @@ const GalleryRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
                     <sphereGeometry args={[40, 32, 32]} />
                     <meshBasicMaterial color="#f0f0f0" side={THREE.BackSide} transparent opacity={0.5} onBeforeCompile={onBeforeCompile} />
                 </mesh>
+
+                {/* === YICHANG DAM DECORATIONS (section, scroll, spillway, turbines, plaque, ruler) === */}
+                <YichangDamDecorations />
             </group>
         </group>
     );

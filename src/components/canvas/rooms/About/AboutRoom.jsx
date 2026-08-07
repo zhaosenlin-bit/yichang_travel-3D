@@ -3,6 +3,7 @@ import { useFrame, useThree } from '@react-three/fiber';
 import { Text, PositionalAudio } from '@react-three/drei';
 import * as THREE from 'three';
 import PaperAirplane from './PaperAirplane';
+import YichangStationDecorations from './YichangStationDecorations';
 import InfiniteSkyManager from './InfiniteSkyManager';
 import StoryMilestone from './StoryMilestone';
 import { useScene } from '../../../../context/SceneContext';
@@ -258,6 +259,9 @@ const AboutRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
 
             {/* === INFINITE SKY WITH CLOUDS + STORY MILESTONES === */}
             <InfiniteSkyManager scrollProgressRef={scrollPosition} />
+
+            {/* === YICHANG STATION DECORATIONS (paifang, building, river, mountains, banner) === */}
+            <YichangStationDecorations />
 
             {/* === SKY BACKDROP === */}
             <mesh position={[0, 0, -200]}>
