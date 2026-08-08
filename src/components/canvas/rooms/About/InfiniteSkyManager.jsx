@@ -8,6 +8,7 @@ import { useScene } from '../../../../context/SceneContext';
 import '../../shaders/RevealBasicMaterial'; // Registers brush-stroke reveal for BasicMaterial
 import { isTouchDevice } from '../../../../utils/deviceDetect';
 import { useAwards } from '../../../../hooks/useSanityData';
+import StoryMilestone from './StoryMilestone';
 
 // Reusable Vector3 to avoid allocations in event handlers
 const _tempVec3 = new THREE.Vector3();
@@ -149,7 +150,7 @@ const STORY_CYCLE_LENGTH = 160;
 // -27 = 2 metry za drzwiami (w głąb pokoju) - musi matchować CORRIDOR_CLIP_Z w SkyChunk
 const MILESTONE_CORRIDOR_CLIP_Z = -8.0;
 
-const InfiniteSkyManager = ({ scrollProgressRef }) => {
+const InfiniteSkyManager = ({ scrollProgressRef, milestones }) => {
     // PRE-CALCULATED FOR scrolProgress = 0
     // currentChunk = floor(0/40) = 0 -> [-1, 0, 1, 2]
     const [activeChunks, setActiveChunks] = useState([-1, 0, 1, 2]);
@@ -220,33 +221,38 @@ const InfiniteSkyManager = ({ scrollProgressRef }) => {
                 />
             ))}
 
-            {/* === STORY MILESTONES (loop every 160 units) === */}
             {activeStoryCycles.map((cycleIndex) => (
                 <group key={`story-cycle-${cycleIndex}`}>
-                    {/* === INTRO MILESTONE === */}
-                    <IntroMilestone
-                        z={-(cycleIndex * STORY_CYCLE_LENGTH + 15)}
-                        scrollProgressRef={scrollProgressRef}
-                    />
-
-                    {/* === AWARDS MILESTONE === */}
-                    <AwardsMilestone
-                        z={-(cycleIndex * STORY_CYCLE_LENGTH + 55)}
-                        scrollProgressRef={scrollProgressRef}
-                    />
-
-                    {/* === JOURNEY MILESTONE === */}
-                    <JourneyMilestone
-                        z={-(cycleIndex * STORY_CYCLE_LENGTH + 95)}
-                        scrollProgressRef={scrollProgressRef}
-                    />
-
-                    {/* === SKILLS MILESTONE === */}
-
-                    <SkillsMilestone
-                        z={-(cycleIndex * STORY_CYCLE_LENGTH + 135)}
-                        scrollProgressRef={scrollProgressRef}
-                    />
+                    {milestones ? (
+                        milestones.map((m, idx) => (
+                            <StoryMilestone
+                                key={`m-${cycleIndex}-${idx}`}
+                                position={[0, 0, -(cycleIndex * STORY_CYCLE_LENGTH + 15 + idx * 40)]}
+                                title={m.title}
+                                subtitle={m.subtitle}
+                                type={m.type || "intro"}
+                            />
+                        ))
+                    ) : (
+                        <>
+                            <IntroMilestone
+                                z={-(cycleIndex * STORY_CYCLE_LENGTH + 15)}
+                                scrollProgressRef={scrollProgressRef}
+                            />
+                            <AwardsMilestone
+                                z={-(cycleIndex * STORY_CYCLE_LENGTH + 55)}
+                                scrollProgressRef={scrollProgressRef}
+                            />
+                            <JourneyMilestone
+                                z={-(cycleIndex * STORY_CYCLE_LENGTH + 95)}
+                                scrollProgressRef={scrollProgressRef}
+                            />
+                            <SkillsMilestone
+                                z={-(cycleIndex * STORY_CYCLE_LENGTH + 135)}
+                                scrollProgressRef={scrollProgressRef}
+                            />
+                        </>
+                    )}
                 </group>
             ))}
         </group>

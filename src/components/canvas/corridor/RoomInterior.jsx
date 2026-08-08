@@ -4,7 +4,7 @@ import { useTexture } from '@react-three/drei';
 import * as THREE from 'three';
 
 // Eagerly import room components - textures are preloaded during the preloader phase
-import GalleryRoom from '../rooms/Gallery/GalleryRoom';
+import DamFlightRoom from '../rooms/Gallery/DamFlightRoom';
 import StudioRoom from '../rooms/Studio/StudioRoom';
 import AboutRoom from '../rooms/About/AboutRoom';
 import ContactRoom from '../rooms/Contact/ContactRoom';
@@ -27,7 +27,7 @@ const SUBTITLES = {
     "LET'S CONNECT": 'Get in touch with me'
 };
 
-// Naturalny kafelek listwy: 1582x94px przy wysokości 0.15 → ~2.524 units szerokości
+// Naturalny kafelek listwy: 1582x94px przy wysokości 0.15 �?~2.524 units szerokości
 const NATURAL_TILE_W = (1582 / 94) * 0.15;
 
 /**
@@ -202,7 +202,7 @@ const RoomInterior = memo(({ roomId, label, showRoom, onReady, isExiting }) => {
                         // Positioned at the end of the corridor
                         <group position={[0, -0.5, -corridorDepth]}>
                             <Suspense fallback={null}>
-                                <GalleryRoom showRoom={showRoom} onReady={onReady} isExiting={isExiting} />
+                                <DamFlightRoom showRoom={showRoom} onReady={onReady} isExiting={isExiting} />
                             </Suspense>
                         </group>
                     ) : isStudio ? (
