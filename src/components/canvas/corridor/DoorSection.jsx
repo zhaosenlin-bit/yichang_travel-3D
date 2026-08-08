@@ -1,4 +1,4 @@
-import { useRef, useState, useCallback, useEffect, useMemo } from 'react';
+﻿import { useRef, useState, useCallback, useEffect, useMemo } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
 import { Text, useTexture, PositionalAudio } from '@react-three/drei';
 import * as THREE from 'three';
@@ -149,10 +149,11 @@ const DoorSection = ({
         // We assume teleport always goes to segment 0
         const isSegment0 = segmentIndex === 0;
 
-        if (pendingDoorClick && pendingDoorClick === doorId && isSegment0 && !isOpen && !isAnimating) {
+        if (pendingDoorClick && pendingDoorClick === roomId && isSegment0 && !isOpen && !isAnimating) {
             handleClick({ stopPropagation: () => { }, isTeleport: true }); // Trigger click simulation with TELEPORT flag
+        } else if (pendingDoorClick) {
         }
-    }, [pendingDoorClick, doorId, segmentIndex, isOpen, isAnimating]);
+    }, [pendingDoorClick, roomId, segmentIndex, isOpen, isAnimating]);
 
     // --- SILENT RESET FOR TELEPORTATION ---
     // If a teleport starts (users clicks map), and we are inside THIS room,
@@ -362,7 +363,7 @@ const DoorSection = ({
         // Smooth interpolation
         currentTilt.current = THREE.MathUtils.lerp(currentTilt.current, targetTilt, 0.06);
 
-        // Apply rotation: BASE_ROTATION (90°) + dynamic tilt
+        // Apply rotation: BASE_ROTATION (90掳) + dynamic tilt
         const baseDir = side === 'left' ? 1 : -1;
         const tiltDir = side === 'left' ? -1 : 1;
 
@@ -431,8 +432,8 @@ const DoorSection = ({
         // If this is a TELEPORT entry, overwrite the saved state with a "Safe Corridor Position"
         // This prevents the camera from jumping back to the OLD room position on exit.
         if (e && e.isTeleport) {
-            // Use a NATURAL corridor glance angle (~8.5 degrees), NOT the intense door-aligned angle (60°)
-            // This creates a visible head turn: from looking at door (60°) → subtle corridor glance (8.5°)
+            // Use a NATURAL corridor glance angle (~8.5 degrees), NOT the intense door-aligned angle (60掳)
+            // This creates a visible head turn: from looking at door (60掳) 鈫?subtle corridor glance (8.5掳)
             // The angle is smaller because we end up 4m back from the door, not right next to it
             const corridorGlanceY = side === 'left' ? 0.15 : -0.15;
 
@@ -449,7 +450,7 @@ const DoorSection = ({
         // FAST TELEPORT: Use ultra-fast animation durations (almost instant)
         // The paper is closed so user won't see the fast motion
         const useFastMode = isTeleport && isFastTeleport;
-        const alignDuration = useFastMode ? 0.01 : 1.0;
+        const alignDuration = useFastMode ? 0.5 : 1.0;
 
         // Get door world position
         const doorWorldPos = new THREE.Vector3();
@@ -600,18 +601,12 @@ const DoorSection = ({
                         // Just mark as inside
                         setIsAnimating(false);
                         setIsInsideRoom(true);
-
-                        // Defer context update exactly 250ms to strictly avoid any
-                        // stutter during the very last frames of the GSAP animation loop.
-                        setTimeout(() => {
-                            enterRoom(doorId); // Use ID ('gallery') not label ('THE GALLERY')
-                            onEnter?.();
-
-                            // FAST TELEPORT: Signal that room is ready - this opens the paper
-                            if (fastMode) {
-                                signalRoomReady();
-                            }
-                        }, 250);
+                        setShouldRenderRoom(true);
+                        onEnter?.();
+                        enterRoom(roomId); // Use ROOM ID ('gallery') not doorId ('gallery-0') for currentRoom consistency
+                        if (fastMode) {
+                            signalRoomReady();
+                        }
                     }
                 });
             }
@@ -969,11 +964,11 @@ const DoorSection = ({
                 {/* === ARROW DECORATION === */}
                 {/* Pointing to door. Left arrow. */}
                 {/* ===================================================
-                    REGULACJA STRZAŁKI LEWEJ:
+                    REGULACJA STRZA艁KI LEWEJ:
                     position={[wallOffsetX - 0.9, 0, 0.02]}
-                      - wallOffsetX - 0.9 → odległość od środka drzwi (zwiększ 0.9 = dalej od drzwi)
-                      - Y = 0             → wysokość (0 = środek ściany, + = wyżej, - = niżej)
-                    scale={[0.5, 0.5, 1]} → rozmiar strzałki
+                      - wallOffsetX - 0.9 鈫?odleg艂o艣膰 od 艣rodka drzwi (zwi臋ksz 0.9 = dalej od drzwi)
+                      - Y = 0             鈫?wysoko艣膰 (0 = 艣rodek 艣ciany, + = wy偶ej, - = ni偶ej)
+                    scale={[0.5, 0.5, 1]} 鈫?rozmiar strza艂ki
                     =================================================== */}
                 <mesh
                     position={[wallOffsetX - 1.1, 0, 0.02]}
@@ -992,11 +987,11 @@ const DoorSection = ({
 
                 {/* === ARROW DECORATION (RIGHT, MIRRORED) === */}
                 {/* ===================================================
-                    REGULACJA STRZAŁKI PRAWEJ:
+                    REGULACJA STRZA艁KI PRAWEJ:
                     position={[wallOffsetX + 0.9, -0.3, 0.02]}
-                      - wallOffsetX + 0.9 → odległość od środka drzwi (prawa strona)
-                      - Y = -0.3          → trochę niżej niż lewa strzałka
-                    scale={[-0.5, 0.5, 1]} → ujemny X = lustrzane odbicie
+                      - wallOffsetX + 0.9 鈫?odleg艂o艣膰 od 艣rodka drzwi (prawa strona)
+                      - Y = -0.3          鈫?troch臋 ni偶ej ni偶 lewa strza艂ka
+                    scale={[-0.5, 0.5, 1]} 鈫?ujemny X = lustrzane odbicie
                     =================================================== */}
                 <mesh
                     position={[wallOffsetX + 1.1, -0.3, 0.02]}
@@ -1033,12 +1028,12 @@ const DoorSection = ({
                     />
                 </mesh>
 
-                {/* === THRESHOLD STRIPE (Próg przy drzwiach bocznych) === */}
+                {/* === THRESHOLD STRIPE (Pr贸g przy drzwiach bocznych) === */}
                 {(() => {
-                    // Próg leży na podłodze, prostopadle do ściany bocznej
-                    // Szerokość progu = szerokość otworu drzwiowego (~1.1)
-                    const THRESH_W = 1.1;   // Szerokość (wzdłuż X lokalnego = wzdłuż ściany)
-                    const THRESH_D = 0.15;  // Głębokość (wzdłuż Z lokalnego = w głąb korytarza)
+                    // Pr贸g le偶y na pod艂odze, prostopadle do 艣ciany bocznej
+                    // Szeroko艣膰 progu = szeroko艣膰 otworu drzwiowego (~1.1)
+                    const THRESH_W = 1.1;   // Szeroko艣膰 (wzd艂u偶 X lokalnego = wzd艂u偶 艣ciany)
+                    const THRESH_D = 0.15;  // G艂臋boko艣膰 (wzd艂u偶 Z lokalnego = w g艂膮b korytarza)
                     const threshTex = baseboardTexture.clone();
                     threshTex.needsUpdate = true;
                     threshTex.wrapS = threshTex.wrapT = THREE.RepeatWrapping;
@@ -1066,9 +1061,9 @@ const DoorSection = ({
                     {/* === TEXTURED SIGN === */}
                     <group position={[0, doorHeight / 2 + 0.45, 0.08]}>
                         {/* 
-                            WIELKOŚĆ TABLICZKI (SIGN SIZE):
-                            Zmień liczby w args={[Szerokość, Wysokość]}
-                            Obecnie: 1.3 szerokości, 0.65 wysokości
+                            WIELKO艢膯 TABLICZKI (SIGN SIZE):
+                            Zmie艅 liczby w args={[Szeroko艣膰, Wysoko艣膰]}
+                            Obecnie: 1.3 szeroko艣ci, 0.65 wysoko艣ci
                         */}
                         <mesh>
                             {/* Adjusted size for the signs - assuming rectangular aspect ratio */}
@@ -1203,6 +1198,8 @@ const DoorSection = ({
                             onClick={handleClick}
                             onPointerEnter={handlePointerEnter}
                             onPointerLeave={handlePointerLeave}
+                            onPointerDown={(e) => { try { e.stopPropagation(); } catch(_){} }}
+                            onClickCapture={(e) => { try { e.stopPropagation(); } catch(_){} }}
                         >
                             <planeGeometry args={[doorWidth, doorHeight]} />
                             <meshBasicMaterial color="#e0e0e0" transparent={true} opacity={0} depthWrite={false} />
@@ -1314,3 +1311,4 @@ const DoorSection = ({
 };
 
 export default DoorSection;
+
