@@ -4,6 +4,7 @@ import { Text, PositionalAudio } from '@react-three/drei';
 import * as THREE from 'three';
 import PaperAirplane from './PaperAirplane';
 import YichangStationDecorations from './YichangStationDecorations';
+import TicketButton from '../_shared/TicketButton';
 import InfiniteSkyManager from './InfiniteSkyManager';
 import StoryMilestone from './StoryMilestone';
 import { useScene } from '../../../../context/SceneContext';
@@ -262,6 +263,14 @@ const AboutRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
 
             {/* === YICHANG STATION DECORATIONS (paifang, building, river, mountains, banner) === */}
             <YichangStationDecorations />
+
+            <TicketButton
+                position={[3, 1, -2]}
+                rotation={[0, 0.25, 0]}
+                url="https://www.12306.cn"
+                label="购票·详情"
+                subLabel="宜昌东站·则出发点"
+            />
 
             {/* === SKY BACKDROP === */}
             <mesh position={[0, 0, -200]}>

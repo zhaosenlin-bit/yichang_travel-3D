@@ -12,6 +12,7 @@ const ZCOOL = "/fonts/CabinSketch-Bold.ttf";
 export default function TicketButton({
   position = [0, 0, 0],
   rotation = [0, 0, 0],
+  scale = 2.0,
   url = "https://www.12306.cn",
   label = "购票·详情",
   subLabel = "",
@@ -33,6 +34,7 @@ export default function TicketButton({
   return (
     <group
       ref={groupRef}
+      scale={scale}
       position={position}
       rotation={rotation}
       onPointerOver={(e) => { e.stopPropagation(); setHovered(true); document.body.style.cursor = "pointer"; }}

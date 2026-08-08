@@ -8,6 +8,7 @@ import { useAchievements } from '../../../../context/AchievementsContext';
 import { TextureLoader } from 'three';
 import FloatingCodeParticles from './FloatingCodeParticles';
 import YichangMuseumDecorations from './YichangMuseumDecorations';
+import TicketButton from '../_shared/TicketButton';
 import { PositionalAudio } from '@react-three/drei';
 import { useAudio } from '../../../../context/AudioManager';
 import { useStudioContent } from '../../../../hooks/useSanityData';
@@ -597,6 +598,14 @@ const StudioRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
 
             {/* === YICHANG MUSEUM DECORATIONS (plaque, tiger-bird drum, artifact holograms, scroll) === */}
             <YichangMuseumDecorations />
+
+            <TicketButton
+                position={[3, 4, -1]}
+                rotation={[0, 0, 0]}
+                url="http://www.ycbwg.com"
+                label={"购票·详情"}
+                subLabel={"宜昌博物馆"}
+            />
         </group>
     );
 };

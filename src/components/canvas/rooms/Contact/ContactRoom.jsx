@@ -6,6 +6,7 @@ import gsap from 'gsap';
 import MessagePaper from './MessagePaper';
 import SocialBarrel from './SocialBarrel';
 import YichangFamilyDecorations from './YichangFamilyDecorations';
+import TicketButton from '../_shared/TicketButton';
 import { useScene } from '../../../../context/SceneContext';
 import GalleryClouds from '../Gallery/GalleryClouds';
 import { useAchievements } from '../../../../context/AchievementsContext';
@@ -514,6 +515,14 @@ const ContactRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
 
             {/* === YICHANG FAMILY DECORATIONS (diaojiaolou, paper boats, baishou ribbons, dragon boat flag, scroll) === */}
             <YichangFamilyDecorations />
+
+            <TicketButton
+                position={[3, 2.5, 1.5]}
+                rotation={[0, 0.25, 0]}
+                url="http://www.sxrbj.com.cn"
+                label={"购票·详情"}
+                subLabel={"三峡人家"}
+            />
         </group>
     );
 };
