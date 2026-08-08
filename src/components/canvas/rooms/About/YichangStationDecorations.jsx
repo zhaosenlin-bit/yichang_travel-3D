@@ -6,38 +6,23 @@ import * as THREE from "three";
 const ZCOOL = "https://fonts.gstatic.com/s/zcoolxiaowei/v15/i7dMIFFrTRywPpUVX9_RJyM1YFI.ttf";
 
 /**
- * YichangStationDecorations — 宜昌东站主题装饰
- *
- * 添加在 AboutRoom 内，与现有 4 段 STORY_MILESTONES 共存。
- * - 入川牌坊 (3 立柱 + 横匾)
- * - 东站立体浮雕
- * - 长江水波 (3 层)
- * - 远山轮廓
- * - "宜昌欢迎你" 飘动横幅
- */
-
-/**
- * Paifang — 3 立柱 + 横匾牌坊
+ * Paifang — 3 立柱 + 横匾牌坊 (gateway archway)
  */
 function Paifang({ position = [0, 0, 0], scale = 1 }) {
     return (
         <group position={position} scale={scale}>
-            {/* 3 立柱 */}
             {[-3, 0, 3].map((x, i) => (
                 <group key={i} position={[x, 0, 0]}>
-                    {/* 柱基 */}
                     <mesh position={[0, -0.05, 0]}>
                         <boxGeometry args={[0.5, 0.2, 0.5]} />
                         <meshBasicMaterial color="#7a5a3a" />
                         <Edges color="#3a2810" />
                     </mesh>
-                    {/* 柱身 */}
                     <mesh position={[0, 1.2, 0]}>
                         <cylinderGeometry args={[0.12, 0.16, 2.5, 12]} />
                         <meshBasicMaterial color="#c41e1e" />
                         <Edges color="#5a0e0e" />
                     </mesh>
-                    {/* 柱顶 */}
                     <mesh position={[0, 2.5, 0]}>
                         <boxGeometry args={[0.55, 0.2, 0.55]} />
                         <meshBasicMaterial color="#7a2222" />
@@ -45,30 +30,23 @@ function Paifang({ position = [0, 0, 0], scale = 1 }) {
                     </mesh>
                 </group>
             ))}
-            {/* 横梁 1 */}
             <mesh position={[0, 2.85, 0]}>
                 <boxGeometry args={[7.0, 0.35, 0.3]} />
                 <meshBasicMaterial color="#c41e1e" />
                 <Edges color="#5a0e0e" />
             </mesh>
-            {/* 横梁 2 (顶部) */}
             <mesh position={[0, 3.3, 0]}>
                 <boxGeometry args={[7.6, 0.4, 0.35]} />
                 <meshBasicMaterial color="#7a2222" />
                 <Edges color="#3a1010" />
             </mesh>
-            {/* 屋檐装饰 4 角 */}
-            {[
-                [-3.7, 3.55, 0], [3.7, 3.55, 0],
-                [-3.0, 3.55, 0], [3.0, 3.55, 0],
-            ].map((p, i) => (
+            {[[-3.7, 3.55, 0], [3.7, 3.55, 0], [-3.0, 3.55, 0], [3.0, 3.55, 0]].map((p, i) => (
                 <mesh key={i} position={p} rotation={[0, i % 2 ? -0.3 : 0.3, 0]}>
                     <coneGeometry args={[0.18, 0.32, 4]} />
                     <meshBasicMaterial color="#7a2222" />
                     <Edges color="#3a1010" />
                 </mesh>
             ))}
-            {/* 中央匾额 */}
             <mesh position={[0, 2.55, 0.18]}>
                 <planeGeometry args={[2.4, 0.7]} />
                 <meshBasicMaterial color="#f6e6c0" />
@@ -103,29 +81,25 @@ function Paifang({ position = [0, 0, 0], scale = 1 }) {
 
 /**
  * StationBuilding — 宜昌东站立体浮雕
- * 屋顶 + 4 立柱 + 中央立面
  */
 function StationBuilding({ position = [0, 0, 0], scale = 1 }) {
     return (
         <group position={position} scale={scale}>
-            {/* 主体 */}
             <mesh position={[0, 1.5, 0]}>
                 <boxGeometry args={[4.5, 3.0, 2.0]} />
                 <meshBasicMaterial color="#e8e0d0" transparent opacity={0.85} />
                 <Edges color="#3a2a1a" />
             </mesh>
-            {/* 屋顶弧形 */}
-            <mesh position={[0, 3.2, 0]} rotation={[0, 0, 0]}>
+            <mesh position={[0, 3.2, 0]}>
                 <boxGeometry args={[5.0, 0.4, 2.3]} />
                 <meshBasicMaterial color="#7a2222" />
                 <Edges color="#3a1010" />
             </mesh>
-            <mesh position={[0, 3.55, 0]} rotation={[0, 0, 0]}>
-                <coneGeometry args={[3.0, 0.5, 4, 1, false, Math.PI / 4]} />
+            <mesh position={[0, 3.55, 0]} rotation={[0, 0, Math.PI / 4]}>
+                <coneGeometry args={[3.0, 0.5, 4]} />
                 <meshBasicMaterial color="#7a2222" />
                 <Edges color="#3a1010" />
             </mesh>
-            {/* 4 立柱 */}
             {[[-1.8, 0, 0.85], [1.8, 0, 0.85], [-1.8, 0, -0.85], [1.8, 0, -0.85]].map((p, i) => (
                 <mesh key={i} position={[p[0], 1.5, p[2]]}>
                     <cylinderGeometry args={[0.18, 0.18, 3.0, 12]} />
@@ -133,13 +107,11 @@ function StationBuilding({ position = [0, 0, 0], scale = 1 }) {
                     <Edges color="#5a0e0e" />
                 </mesh>
             ))}
-            {/* 大玻璃窗 */}
             <mesh position={[0, 1.8, 1.01]}>
                 <planeGeometry args={[3.6, 1.4]} />
                 <meshBasicMaterial color="#a8c8e0" transparent opacity={0.55} />
                 <Edges color="#3a4a5a" />
             </mesh>
-            {/* "宜昌东站"招牌 */}
             <mesh position={[0, 2.85, 1.02]}>
                 <planeGeometry args={[2.2, 0.45]} />
                 <meshBasicMaterial color="#f6e6c0" />
@@ -161,10 +133,9 @@ function StationBuilding({ position = [0, 0, 0], scale = 1 }) {
 }
 
 /**
- * RiverWater — 长江水波，多层透明 plane
+ * RiverWater — 长江水波 (Yangtze River water waves)
  */
 function RiverWater({ position = [0, -2.2, -10] }) {
-    const groupRef = useRef();
     const layer1Ref = useRef();
     const layer2Ref = useRef();
     const layer3Ref = useRef();
@@ -186,7 +157,7 @@ function RiverWater({ position = [0, -2.2, -10] }) {
     });
 
     return (
-        <group ref={groupRef} position={position}>
+        <group position={position}>
             <mesh ref={layer1Ref} position={[0, 0, 0]} rotation={[-Math.PI / 2, 0, 0]}>
                 <planeGeometry args={[80, 18]} />
                 <meshBasicMaterial color="#3a6fa0" transparent opacity={0.55} side={THREE.DoubleSide} />
@@ -204,11 +175,10 @@ function RiverWater({ position = [0, -2.2, -10] }) {
 }
 
 /**
- * DistantMountains — 远山轮廓 (三角 ExtrudeGeometry 起伏)
+ * DistantMountains — 远山轮廓 (distant mountain silhouettes)
  */
 function DistantMountains({ position = [0, 0, -50] }) {
     const triangles = useMemo(() => {
-        // 5 座山
         const xs = [-30, -15, -5, 8, 22];
         const peaks = [4, 7, 5.5, 8, 6];
         return xs.map((x, i) => ({ x, peak: peaks[i] }));
@@ -218,35 +188,25 @@ function DistantMountains({ position = [0, 0, -50] }) {
         <group position={position}>
             {triangles.map((m, i) => (
                 <group key={i} position={[m.x, 0, 0]}>
-                    {/* 山体 1 - 大三角 */}
                     <mesh position={[0, m.peak / 2, 0]}>
                         <bufferGeometry>
                             <bufferAttribute
                                 attach="attributes-position"
                                 count={3}
                                 itemSize={3}
-                                array={new Float32Array([
-                                    -8, 0, 0,
-                                    8, 0, 0,
-                                    0, m.peak, 0,
-                                ])}
+                                array={new Float32Array([-8, 0, 0, 8, 0, 0, 0, m.peak, 0])}
                             />
                         </bufferGeometry>
                         <meshBasicMaterial color="#8a8a8a" side={THREE.DoubleSide} />
                         <Edges color="#3a3a3a" />
                     </mesh>
-                    {/* 山体 2 - 后层小三角 */}
                     <mesh position={[3, m.peak * 0.6 / 2, -1]}>
                         <bufferGeometry>
                             <bufferAttribute
                                 attach="attributes-position"
                                 count={3}
                                 itemSize={3}
-                                array={new Float32Array([
-                                    -5, 0, 0,
-                                    5, 0, 0,
-                                    1, m.peak * 0.6, 0,
-                                ])}
+                                array={new Float32Array([-5, 0, 0, 5, 0, 0, 1, m.peak * 0.6, 0])}
                             />
                         </bufferGeometry>
                         <meshBasicMaterial color="#a8a8a8" side={THREE.DoubleSide} />
@@ -271,13 +231,11 @@ function WelcomeBanner({ position = [0, 2, 0] }) {
     });
     return (
         <group ref={groupRef} position={position}>
-            {/* 横幅底 */}
             <mesh>
                 <planeGeometry args={[3.6, 0.7]} />
                 <meshBasicMaterial color="#c41e1e" side={THREE.DoubleSide} />
                 <Edges color="#5a0e0e" />
             </mesh>
-            {/* 上下金边 */}
             <mesh position={[0, 0.32, 0.01]}>
                 <planeGeometry args={[3.7, 0.06]} />
                 <meshBasicMaterial color="#ffd06b" />
@@ -286,7 +244,6 @@ function WelcomeBanner({ position = [0, 2, 0] }) {
                 <planeGeometry args={[3.7, 0.06]} />
                 <meshBasicMaterial color="#ffd06b" />
             </mesh>
-            {/* 主文字 */}
             <Text
                 position={[0, 0.05, 0.02]}
                 fontSize={0.32}
@@ -310,7 +267,6 @@ function WelcomeBanner({ position = [0, 2, 0] }) {
             >
                 {"welcome to yichang"}
             </Text>
-            {/* 左右挂穗 */}
             {[[-1.85, 0, 0], [1.85, 0, 0]].map((p, i) => (
                 <mesh key={i} position={p}>
                     <cylinderGeometry args={[0.04, 0.04, 0.5, 8]} />
@@ -321,27 +277,287 @@ function WelcomeBanner({ position = [0, 2, 0] }) {
     );
 }
 
+/**
+ * HighSpeedTrain — 复兴号 CR400AF 3D simplified model
+ */
+function HighSpeedTrain({ position = [0, 0, 0], scale = 1 }) {
+    return (
+        <group position={position} scale={scale}>
+            {/* Train body main (white) */}
+            <mesh>
+                <boxGeometry args={[7, 1.0, 1.3]} />
+                <meshBasicMaterial color="#f8f8f8" />
+                <Edges color="#3a3a3a" />
+            </mesh>
+            {/* Red stripe along the bottom */}
+            <mesh position={[0, -0.32, 0.66]}>
+                <boxGeometry args={[6.9, 0.16, 0.01]} />
+                <meshBasicMaterial color="#c41e1e" />
+            </mesh>
+            <mesh position={[0, -0.32, -0.66]}>
+                <boxGeometry args={[6.9, 0.16, 0.01]} />
+                <meshBasicMaterial color="#c41e1e" />
+            </mesh>
+            {/* Window strip */}
+            <mesh position={[0, 0.18, 0.66]}>
+                <boxGeometry args={[6.5, 0.25, 0.01]} />
+                <meshBasicMaterial color="#2a3a4a" />
+            </mesh>
+            <mesh position={[0, 0.18, -0.66]}>
+                <boxGeometry args={[6.5, 0.25, 0.01]} />
+                <meshBasicMaterial color="#2a3a4a" />
+            </mesh>
+            {/* Streamlined nose (front) */}
+            <mesh position={[3.8, 0, 0]} rotation={[0, 0, -0.2]}>
+                <coneGeometry args={[0.55, 1.4, 16]} />
+                <meshBasicMaterial color="#f8f8f8" />
+                <Edges color="#3a3a3a" />
+            </mesh>
+            {/* Window on nose */}
+            <mesh position={[4.1, 0.15, 0]} rotation={[0, 0, -0.2]}>
+                <boxGeometry args={[0.5, 0.2, 0.8]} />
+                <meshBasicMaterial color="#2a3a4a" />
+            </mesh>
+            {/* Wheels (4 pairs) */}
+            {[-2.5, -1.0, 1.0, 2.5].map((x, i) => (
+                <group key={i}>
+                    <mesh position={[x, -0.5, 0.55]} rotation={[Math.PI / 2, 0, 0]}>
+                        <cylinderGeometry args={[0.15, 0.15, 0.08, 12]} />
+                        <meshBasicMaterial color="#2a2a2a" />
+                    </mesh>
+                    <mesh position={[x, -0.5, -0.55]} rotation={[Math.PI / 2, 0, 0]}>
+                        <cylinderGeometry args={[0.15, 0.15, 0.08, 12]} />
+                        <meshBasicMaterial color="#2a2a2a" />
+                    </mesh>
+                </group>
+            ))}
+            {/* CRH logo plate */}
+            <mesh position={[-2.5, 0.5, 0.66]}>
+                <planeGeometry args={[1.0, 0.3]} />
+                <meshBasicMaterial color="#c41e1e" />
+            </mesh>
+            <Text
+                position={[-2.5, 0.5, 0.67]}
+                fontSize={0.18}
+                color="#fffaf0"
+                anchorX="center"
+                anchorY="middle"
+                font={ZCOOL}
+                letterSpacing={0.06}
+            >
+                {"\u590d\u5174\u53f7"}
+            </Text>
+            <Text
+                position={[-2.5, 0.32, 0.67]}
+                fontSize={0.08}
+                color="#fffaf0"
+                anchorX="center"
+                anchorY="middle"
+            >
+                {"CR400AF \u00b7 350km/h"}
+            </Text>
+        </group>
+    );
+}
+
+/**
+ * RailTracks — 轨道 (rail tracks with ties)
+ */
+function RailTracks({ position = [0, 0, 0] }) {
+    const ties = useMemo(() => {
+        const arr = [];
+        for (let i = 0; i < 20; i++) arr.push(i * 1.2 - 12);
+        return arr;
+    }, []);
+    return (
+        <group position={position}>
+            {[-0.8, 0.8].map((z, i) => (
+                <mesh key={i} position={[0, 0.05, z]}>
+                    <boxGeometry args={[24, 0.05, 0.08]} />
+                    <meshBasicMaterial color="#7a7a7a" />
+                </mesh>
+            ))}
+            {ties.map((x, i) => (
+                <mesh key={i} position={[x, 0, 0]}>
+                    <boxGeometry args={[0.25, 0.06, 1.8]} />
+                    <meshBasicMaterial color="#4a3018" />
+                </mesh>
+            ))}
+        </group>
+    );
+}
+
+/**
+ * ScheduleBoard — 班次信息小木牌 (schedule info board)
+ */
+function ScheduleBoard({ position = [0, 0, 0], departures = [] }) {
+    return (
+        <group position={position}>
+            <mesh position={[0, -0.6, 0]}>
+                <cylinderGeometry args={[0.04, 0.04, 1.2, 8]} />
+                <meshBasicMaterial color="#7a5a3a" />
+            </mesh>
+            <mesh position={[0, 0.2, 0]}>
+                <boxGeometry args={[1.5, 1.0, 0.06]} />
+                <meshBasicMaterial color="#e8d0a8" />
+                <Edges color="#5a3a1a" />
+            </mesh>
+            <Text
+                position={[0, 0.55, 0.04]}
+                fontSize={0.13}
+                color="#3a1a0a"
+                anchorX="center"
+                anchorY="middle"
+                font={ZCOOL}
+                letterSpacing={0.04}
+            >
+                {"\u73ed\u6b21\u4fe1\u606f"}
+            </Text>
+            <Text
+                position={[0, 0.4, 0.04]}
+                fontSize={0.05}
+                color="#7a5a2a"
+                anchorX="center"
+                anchorY="middle"
+            >
+                {"DEPARTURES"}
+            </Text>
+            {departmentsSafe(departures).map((d, i) => (
+                <Text
+                    key={i}
+                    position={[0, 0.18 - i * 0.18, 0.04]}
+                    fontSize={0.08}
+                    color="#3a1a0a"
+                    anchorX="center"
+                    anchorY="middle"
+                    font={ZCOOL}
+                >
+                    {d}
+                </Text>
+            ))}
+        </group>
+    );
+}
+
+function departmentsSafe(deps) {
+    return Array.isArray(deps) ? deps.slice(0, 3) : [];
+}
+
+/**
+ * StationScreen — 车站大屏 (station info screen with scrolling text)
+ */
+function StationScreen({ position = [0, 0, 0] }) {
+    const textRef = useRef();
+    const lines = [
+        "G502  \u4e0a\u6d77\u8679\u6865  14:35  \u51c6\u70b9",
+        "D5826  \u6b66\u6c49  16:20  \u51c6\u70b9",
+        "K1234  \u91cd\u5e86\u5317  22:40  \u51c6\u70b9",
+        "D2204  \u6b66\u6c49  18:50  \u51c6\u70b9",
+    ];
+    const idxRef = useRef(0);
+
+    useFrame((state) => {
+        const t = state.clock.elapsedTime;
+        if (textRef.current && Math.floor(t * 0.5) !== idxRef.current) {
+            idxRef.current = Math.floor(t * 0.5);
+            const newIdx = idxRef.current % lines.length;
+            textRef.current.text = lines[newIdx];
+        }
+    });
+
+    return (
+        <group position={position}>
+            <mesh position={[0, -1.6, -0.05]}>
+                <cylinderGeometry args={[0.05, 0.05, 0.8, 8]} />
+                <meshBasicMaterial color="#5a5a5a" />
+            </mesh>
+            <mesh position={[0, 0, 0]}>
+                <boxGeometry args={[8, 2.4, 0.12]} />
+                <meshBasicMaterial color="#1a1a1a" />
+            </mesh>
+            <mesh position={[0, 0, 0.07]}>
+                <planeGeometry args={[7.6, 2.0]} />
+                <meshBasicMaterial color="#0a3a1a" />
+            </mesh>
+            <Text
+                position={[0, 0.8, 0.08]}
+                fontSize={0.28}
+                color="#ffd700"
+                anchorX="center"
+                anchorY="middle"
+                font={ZCOOL}
+                letterSpacing={0.08}
+                outlineWidth={0.01}
+                outlineColor="#000000"
+            >
+                {"\u5b9c\u660c\u4e1c\u7ad9 \u00b7 \u5b9e\u65f6\u73ed\u6b21"}
+            </Text>
+            <Text
+                position={[0, 0.55, 0.08]}
+                fontSize={0.10}
+                color="#88cc88"
+                anchorX="center"
+                anchorY="middle"
+            >
+                {"YICHANG EAST \u00b7 LIVE DEPARTURES"}
+            </Text>
+            <Text
+                ref={textRef}
+                position={[0, -0.3, 0.08]}
+                fontSize={0.18}
+                color="#aaffaa"
+                anchorX="center"
+                anchorY="middle"
+                font={ZCOOL}
+            >
+                {lines[0]}
+            </Text>
+            <Text
+                position={[3.4, -0.8, 0.08]}
+                fontSize={0.10}
+                color="#88cc88"
+                anchorX="right"
+                anchorY="middle"
+            >
+                {"2024-08-08"}
+            </Text>
+        </group>
+    );
+}
+
 const YichangStationDecorations = () => {
     return (
         <group>
-            {/* === 远山轮廓 (背景) === */}
             <DistantMountains position={[0, -2, -45]} />
-
-            {/* === 长江水波 === */}
             <RiverWater position={[0, -2.5, -15]} />
-
-            {/* === "入川第一站" 牌坊 (近景) === */}
+            <RailTracks position={[0, -2.45, -5]} />
+            <Float speed={0.4} floatIntensity={0.05} rotationIntensity={0.02}>
+                <group position={[0, -1.0, -3]}>
+                    <HighSpeedTrain scale={0.32} />
+                </group>
+            </Float>
+            <Float speed={0.6} floatIntensity={0.08} rotationIntensity={0.04}>
+                <StationScreen position={[0, 4.5, -25]} />
+            </Float>
+            <Float speed={1.0} floatIntensity={0.2} rotationIntensity={0.08}>
+                <ScheduleBoard
+                    position={[4, -0.3, -2]}
+                    departures={["G502 \u4e0a\u6d77 14:35", "D5826 \u6b66\u6c49 16:20", "K1234 \u91cd\u5e86 22:40"]}
+                />
+            </Float>
+            <Float speed={0.9} floatIntensity={0.18} rotationIntensity={0.08}>
+                <ScheduleBoard
+                    position={[-4, -0.3, -8]}
+                    departures={["D2204 \u6b66\u6c49 18:50", "G532 \u91cd\u5e86 19:30", "K50 \u4e0a\u6d77 23:10"]}
+                />
+            </Float>
             <Float speed={0.8} floatIntensity={0.15} rotationIntensity={0.05}>
-                <Paifang position={[0, -1.5, 4]} scale={0.6} />
+                <Paifang position={[0, -1.5, 6]} scale={0.6} />
             </Float>
-
-            {/* === 东站立体浮雕 === */}
             <Float speed={0.5} floatIntensity={0.18} rotationIntensity={0.08}>
-                <StationBuilding position={[-5, -2, 2]} scale={0.4} />
+                <StationBuilding position={[-5, -2, 4]} scale={0.4} />
             </Float>
-
-            {/* === "宜昌欢迎你" 飘动横幅 (中景) === */}
-            <WelcomeBanner position={[5, 1.5, -5]} />
+            <WelcomeBanner position={[5, 1.5, -10]} />
         </group>
     );
 };
