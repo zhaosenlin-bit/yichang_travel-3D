@@ -52,7 +52,7 @@ const STORY_MILESTONES = [
 
 const DamFlightRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
   const { camera } = useThree();
-  const { isTeleporting, overlayContent, currentRoom } = useScene();
+  const { isTeleporting, overlayContent } = useScene();
   const { showTutorial, unlockAchievement, hidePopup } = useAchievements();
   const { globalVolume, isMuted } = useAudio();
   const effectiveVolume = isMuted ? 0 : AUDIO_SETTINGS.volume * globalVolume;
@@ -97,37 +97,10 @@ const DamFlightRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
       currentPitch.current = 0;
       isFlightActive.current = false;
       baseCameraRotation.current = { x: 0, y: 0, z: 0 };
-      entryCameraPos.current = { x: 0, y: 0.5, z: -18 };
       scrollPosition.current = 0;
       scrollVelocity.current = 0;
     }
   }, [isTeleporting]);
-
-  const entryCameraPos = useRef({ x: 0, y: 0.5, z: -18 });
-
-  // Reset camera to face dam head-on right after the door fly-through lands.
-  // Without this the camera keeps DOOR_LOOK_ANGLE and the dam scene renders to the side.
-  useEffect(() => {
-    if (isWarmup || isTeleporting) return;
-    if (currentRoom !== 'gallery') return;
-    camera.position.set(entryCameraPos.current.x, entryCameraPos.current.y, entryCameraPos.current.z);
-    camera.rotation.set(0, 0, 0);
-    scrollPosition.current = 0;
-    scrollVelocity.current = 0;
-    isFlightActive.current = false;
-    currentBank.current = 0;
-    currentPitch.current = 0;
-    baseCameraRotation.current = { x: 0, y: 0, z: 0 };
-    if (typeof window !== 'undefined') {
-      window.__cam = camera;
-      window.__damFlight = {
-        scroll: (v) => { scrollPosition.current = v; scrollVelocity.current = 0; },
-        get cam() { return window.__cam; },
-        p: scrollPosition,
-        start: () => { scrollVelocity.current = 8; }
-      };
-    }
-  }, [currentRoom, isWarmup, isTeleporting, camera]);
 
   useFrame((state, delta) => {
     if (!hasSignaledReady.current) {
@@ -161,28 +134,25 @@ const DamFlightRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
 
     if (!isFlightActive.current && scrollPosition.current > 0.5) {
       isFlightActive.current = true;
-      entryCameraPos.current = {
-        x: camera.position.x,
-        y: camera.position.y,
-        z: camera.position.z
+      baseCameraRotation.current = {
+        x: camera.rotation.x,
+        y: camera.rotation.y,
+        z: camera.rotation.z
       };
     }
 
     if (isFlightActive.current) {
-      const flightT = Math.min(1, scrollPosition.current / 120);
-      const dz = flightT * 7;
-      const dy = flightT * 2.4;
-      const targetPitch = -0.18 * flightT;
-      const posLerp = 1 - Math.pow(0.01, delta);
-      const rotLerp = 1 - Math.pow(0.02, delta);
-      currentBank.current = 0;
-      currentPitch.current = THREE.MathUtils.lerp(currentPitch.current, targetPitch, rotLerp);
-      camera.position.z = THREE.MathUtils.lerp(camera.position.z, entryCameraPos.current.z - dz, posLerp);
-      camera.position.y = THREE.MathUtils.lerp(camera.position.y, entryCameraPos.current.y + dy, posLerp);
-      camera.position.x = THREE.MathUtils.lerp(camera.position.x, entryCameraPos.current.x, posLerp);
-      camera.rotation.x = THREE.MathUtils.lerp(camera.rotation.x, targetPitch, rotLerp);
-      camera.rotation.y = THREE.MathUtils.lerp(camera.rotation.y, 0, rotLerp);
-      camera.rotation.z = 0;
+      const chunkProgress = (scrollPosition.current % CHUNK_LENGTH) / CHUNK_LENGTH;
+      let bankAngle = Math.sin(chunkProgress * Math.PI * 2) * 0.10;
+      let pitchAngle = Math.sin(chunkProgress * Math.PI * 4) * 0.04;
+      const flightProgress = Math.min(1, (scrollPosition.current - 0.5) / 5.0);
+      bankAngle *= flightProgress;
+      pitchAngle *= flightProgress;
+      const lerpSpeed = 1 - Math.pow(0.02, delta);
+      currentBank.current = THREE.MathUtils.lerp(currentBank.current, bankAngle, lerpSpeed);
+      currentPitch.current = THREE.MathUtils.lerp(currentPitch.current, pitchAngle, lerpSpeed);
+      camera.rotation.x = baseCameraRotation.current.x + currentPitch.current;
+      camera.rotation.z = baseCameraRotation.current.z + currentBank.current;
     } else {
       currentBank.current = 0;
       currentPitch.current = 0;
@@ -240,7 +210,7 @@ const DamFlightRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
       )}
 
       {/* \u7eb8\u98de\u673a */}
-      <group ref={airplaneGroupRef} position={[0, -0.3, -3]}>
+      <group ref={airplaneGroupRef} position={[0, -0.3, 18]}>
         <PaperAirplane scale={1.2} color="#5a8db0" />
       </group>
 
