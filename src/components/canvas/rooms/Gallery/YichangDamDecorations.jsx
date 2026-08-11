@@ -341,6 +341,40 @@ const YichangDamDecorations = () => {
       <Fish position={[2, -1.4, -6.5]} color="#5a8db0" delay={2.8} />
 
       <Clouds count={12} yRange={[3, 7]} zRange={[-7, -3]} />
+
+      {/* === Three Gorges Reservoir water surface (behind dam, roomRef-local z=-22) === */}
+      <group position={[0, -1.4, -22]}>
+        <mesh position={[0, 0, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+          <planeGeometry args={[40, 22]} />
+          <meshBasicMaterial color="#5a8fa8" side={THREE.DoubleSide} />
+        </mesh>
+        {[0, 1, 2, 3, 4].map((i) => (
+          <mesh key={"rw-" + i} position={[-12 + i * 6, 0.02, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+            <planeGeometry args={[4, 18]} />
+            <meshBasicMaterial color="#7baac6" transparent opacity={0.55} side={THREE.DoubleSide} />
+          </mesh>
+        ))}
+      </group>
+
+      {/* === Zigui town silhouette (roomRef-local z=-40, 4 triangle cones) === */}
+      <group position={[0, 0, -40]}>
+        <mesh position={[-8, 1.2, 0]}>
+          <coneGeometry args={[2.4, 3, 3]} />
+          <meshBasicMaterial color="#5a6878" />
+        </mesh>
+        <mesh position={[-2, 0.9, 0]}>
+          <coneGeometry args={[1.8, 2.2, 3]} />
+          <meshBasicMaterial color="#6a7888" />
+        </mesh>
+        <mesh position={[4, 1.4, 0]}>
+          <coneGeometry args={[2.8, 3.6, 3]} />
+          <meshBasicMaterial color="#5a6878" />
+        </mesh>
+        <mesh position={[9, 0.8, 0]}>
+          <coneGeometry args={[2, 2.4, 3]} />
+          <meshBasicMaterial color="#6a7888" />
+        </mesh>
+      </group>
     </group>
   );
 };

@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from "react";
+﻿import { useRef, useState, useEffect } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import { Text, PositionalAudio } from "@react-three/drei";
 import * as THREE from "three";
@@ -169,10 +169,14 @@ const DamFlightRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
     }
 
     if (isFlightActive.current) {
-      const flightT = Math.min(1, scrollPosition.current / 120);
-      const dz = flightT * 7;
-      const dy = flightT * 2.4;
-      const targetPitch = -0.18 * flightT;
+      // === 2-PHASE LONG SHOT (v3 spec) ===
+      // Phase 1 (0-130 scroll): 推进 22, 上升 1.5, pitch -0.05 (接近大坝)
+      // Phase 2 (130-200 scroll): 再推 6, 上升 5, pitch -> -0.18 (上升俯瞰)
+      const phase1T = Math.min(1, scrollPosition.current / 130);
+      const phase2T = Math.max(0, Math.min(1, (scrollPosition.current - 130) / 70));
+      const dz = phase1T * 22 + phase2T * 6;
+      const dy = phase1T * 1.5 + phase2T * 5;
+      const targetPitch = -0.05 * phase1T + -0.13 * phase2T;
       const posLerp = 1 - Math.pow(0.01, delta);
       const rotLerp = 1 - Math.pow(0.02, delta);
       currentBank.current = 0;
@@ -270,3 +274,6 @@ const DamFlightRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
 };
 
 export default DamFlightRoom;
+
+
+

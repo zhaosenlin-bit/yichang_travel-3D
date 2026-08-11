@@ -104,9 +104,9 @@ const StoryMilestone = ({
         switch (type) {
             case 'intro':
                 return {
-                    titleSize: 1.8,
+                    titleSize: 0.9,
                     titleColor: '#1a1a1a',
-                    subtitleSize: 0.4,
+                    subtitleSize: 0.2,
                     subtitleColor: '#4a4a4a',
                     decorColor: '#e0e0e0'
                 };
@@ -120,9 +120,9 @@ const StoryMilestone = ({
                 };
             case 'journey':
                 return {
-                    titleSize: 1.5,
+                    titleSize: 0.7,
                     titleColor: '#2a2a2a',
-                    subtitleSize: 0.35,
+                    subtitleSize: 0.18,
                     subtitleColor: '#666666',
                     decorColor: '#87CEEB'
                 };
