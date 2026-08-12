@@ -76,7 +76,7 @@ const CorridorSegment = ({
                 subLabel: '\u5165\u5ddd\u7b2c\u4e00\u7ad9\u00b7\u4e07\u91cc\u957f\u6c5f',
                 icon: '★',
                 color: '#efe6f5',
-                enterDistance: 25 // Enter deep into the room (clouds are far back)
+                enterDistance: 8  // Aligned with other doors; gallery has its own long-shot flight in useFrame
             },
             {
                 id: `connect-${segmentIndex}`,
