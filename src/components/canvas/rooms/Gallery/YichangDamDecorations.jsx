@@ -324,6 +324,200 @@ function Paifang({ position, scale = 1 }) {
   );
 }
 
+
+// ========= 5-tier ship lock (Three Gorges Dam south-side locks) =========
+function ShipLock({ position, scale = 1 }) {
+  const chambers = [0, 1, 2, 3, 4];
+  return (
+    <group position={position} scale={scale}>
+      {chambers.map((i) => (
+        <group key={"lock-" + i} position={[-i * 1.4, 0, -i * 2.6]}>
+          <mesh position={[-1.6, 0.8, 0]}>
+            <boxGeometry args={[0.4, 1.6, 2.2]} />
+            <meshBasicMaterial color="#9a8a78" />
+            <Edges color="#3a2a1a" />
+          </mesh>
+          <mesh position={[1.6, 0.8, 0]}>
+            <boxGeometry args={[0.4, 1.6, 2.2]} />
+            <meshBasicMaterial color="#9a8a78" />
+            <Edges color="#3a2a1a" />
+          </mesh>
+          <mesh position={[0, 0.05, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+            <planeGeometry args={[2.8, 2.0]} />
+            <meshBasicMaterial color="#3a6f8a" />
+          </mesh>
+          <mesh position={[0, 0.5, -1.05]}>
+            <boxGeometry args={[2.8, 0.9, 0.1]} />
+            <meshBasicMaterial color="#c41e1e" />
+            <Edges color="#5a0a0a" />
+          </mesh>
+          <mesh position={[0, 0.5, 1.05]}>
+            <boxGeometry args={[2.8, 0.9, 0.1]} />
+            <meshBasicMaterial color="#c41e1e" />
+            <Edges color="#5a0a0a" />
+          </mesh>
+          <mesh position={[-1.8, 1.4, -1.05]}>
+            <boxGeometry args={[0.4, 1.2, 0.5]} />
+            <meshBasicMaterial color="#d4a878" />
+            <Edges color="#3a2a1a" />
+          </mesh>
+          <mesh position={[1.8, 1.4, -1.05]}>
+            <boxGeometry args={[0.4, 1.2, 0.5]} />
+            <meshBasicMaterial color="#d4a878" />
+            <Edges color="#3a2a1a" />
+          </mesh>
+          <mesh position={[-1.8, 1.4, 1.05]}>
+            <boxGeometry args={[0.4, 1.2, 0.5]} />
+            <meshBasicMaterial color="#d4a878" />
+            <Edges color="#3a2a1a" />
+          </mesh>
+          <mesh position={[1.8, 1.4, 1.05]}>
+            <boxGeometry args={[0.4, 1.2, 0.5]} />
+            <meshBasicMaterial color="#d4a878" />
+            <Edges color="#3a2a1a" />
+          </mesh>
+        </group>
+      ))}
+      <mesh position={[-2.8, 2.2, -5.2]}>
+        <boxGeometry args={[1.6, 0.8, 1.0]} />
+        <meshBasicMaterial color="#e8d4b0" />
+        <Edges color="#3a2a1a" />
+      </mesh>
+      <mesh position={[-2.8, 2.6, -5.2]}>
+        <boxGeometry args={[1.0, 0.3, 0.7]} />
+        <meshBasicMaterial color="#c41e1e" />
+        <Edges color="#5a0a0a" />
+      </mesh>
+    </group>
+  );
+}
+
+// ========= Cargo barge (3 stacked containers + bridge cabin) =========
+function CargoShip({ position, rotation = [0, 0, 0], scale = 1 }) {
+  return (
+    <group position={position} rotation={rotation} scale={scale}>
+      <mesh position={[0, 0.12, 0]}>
+        <boxGeometry args={[3.4, 0.24, 0.7]} />
+        <meshBasicMaterial color="#2a2a2a" />
+        <Edges color="#0a0a0a" />
+      </mesh>
+      <mesh position={[1.7, 0.12, 0]} rotation={[0, 0, -Math.PI / 2]}>
+        <coneGeometry args={[0.35, 0.6, 4]} />
+        <meshBasicMaterial color="#2a2a2a" />
+        <Edges color="#0a0a0a" />
+      </mesh>
+      <mesh position={[-1.0, 0.48, 0]}>
+        <boxGeometry args={[1.2, 0.42, 0.55]} />
+        <meshBasicMaterial color="#c41e1e" />
+        <Edges color="#5a0a0a" />
+      </mesh>
+      <mesh position={[0.15, 0.48, 0]}>
+        <boxGeometry args={[1.0, 0.42, 0.55]} />
+        <meshBasicMaterial color="#3a6f9a" />
+        <Edges color="#1a3a5a" />
+      </mesh>
+      <mesh position={[0.15, 0.92, 0]}>
+        <boxGeometry args={[1.0, 0.42, 0.55]} />
+        <meshBasicMaterial color="#e89a1a" />
+        <Edges color="#7a4a0a" />
+      </mesh>
+      <mesh position={[1.45, 0.55, 0]}>
+        <boxGeometry args={[0.55, 0.8, 0.55]} />
+        <meshBasicMaterial color="#f6efdf" />
+        <Edges color="#5a4a3a" />
+      </mesh>
+      <mesh position={[1.45, 1.05, 0]}>
+        <cylinderGeometry args={[0.08, 0.08, 0.2, 6]} />
+        <meshBasicMaterial color="#c41e1e" />
+      </mesh>
+    </group>
+  );
+}
+
+// ========= Passenger ship (sleek white multi-deck) =========
+function PassengerShip({ position, rotation = [0, 0, 0], scale = 1 }) {
+  return (
+    <group position={position} rotation={rotation} scale={scale}>
+      <mesh position={[0, 0.1, 0]}>
+        <boxGeometry args={[2.6, 0.2, 0.55]} />
+        <meshBasicMaterial color="#f6efdf" />
+        <Edges color="#5a4a3a" />
+      </mesh>
+      <mesh position={[1.35, 0.1, 0]} rotation={[0, 0, -Math.PI / 2]}>
+        <coneGeometry args={[0.28, 0.5, 4]} />
+        <meshBasicMaterial color="#f6efdf" />
+        <Edges color="#5a4a3a" />
+      </mesh>
+      <mesh position={[0, 0.45, 0]}>
+        <boxGeometry args={[2.2, 0.2, 0.5]} />
+        <meshBasicMaterial color="#f6efdf" />
+        <Edges color="#5a4a3a" />
+      </mesh>
+      <mesh position={[-0.2, 0.7, 0]}>
+        <boxGeometry args={[1.7, 0.18, 0.45]} />
+        <meshBasicMaterial color="#f6efdf" />
+        <Edges color="#5a4a3a" />
+      </mesh>
+      <mesh position={[-0.5, 0.92, 0]}>
+        <boxGeometry args={[0.9, 0.18, 0.4]} />
+        <meshBasicMaterial color="#f6efdf" />
+        <Edges color="#5a4a3a" />
+      </mesh>
+      {[-0.85, -0.5, -0.15, 0.2, 0.55].map((x, i) => (
+        <mesh key={"pw-" + i} position={[x, 0.28, 0.28]}>
+          <boxGeometry args={[0.18, 0.08, 0.02]} />
+          <meshBasicMaterial color="#3a4a5a" />
+        </mesh>
+      ))}
+      <mesh position={[0.7, 1.12, 0]}>
+        <cylinderGeometry args={[0.09, 0.09, 0.4, 6]} />
+        <meshBasicMaterial color="#c41e1e" />
+      </mesh>
+    </group>
+  );
+}
+
+// ========= Container ship (12 stacked containers + bridge cabin) =========
+function ContainerShip({ position, rotation = [0, 0, 0], scale = 1 }) {
+  const palette = ["#c41e1e", "#3a6f9a", "#e89a1a", "#5a7a58", "#7a5a3a"];
+  const containers = [];
+  for (let x = 0; x < 4; x++) {
+    for (let y = 0; y < 3; y++) {
+      containers.push({ x, y, color: palette[(x + y) % palette.length] });
+    }
+  }
+  return (
+    <group position={position} rotation={rotation} scale={scale}>
+      <mesh position={[0, 0.15, 0]}>
+        <boxGeometry args={[5.2, 0.3, 1.3]} />
+        <meshBasicMaterial color="#1a1a1a" />
+        <Edges color="#000000" />
+      </mesh>
+      <mesh position={[2.7, 0.15, 0]} rotation={[0, 0, -Math.PI / 2]}>
+        <coneGeometry args={[0.6, 0.8, 4]} />
+        <meshBasicMaterial color="#1a1a1a" />
+        <Edges color="#000000" />
+      </mesh>
+      <mesh position={[-2.3, 0.85, 0]}>
+        <boxGeometry args={[0.7, 1.1, 0.9]} />
+        <meshBasicMaterial color="#f6efdf" />
+        <Edges color="#5a4a3a" />
+      </mesh>
+      <mesh position={[-2.3, 1.5, 0]}>
+        <boxGeometry args={[0.3, 0.3, 0.5]} />
+        <meshBasicMaterial color="#1a1a1a" />
+      </mesh>
+      {containers.map((c, i) => (
+        <mesh key={"cs-" + i} position={[-1.5 + c.x * 0.9, 0.55 + c.y * 0.45, 0]}>
+          <boxGeometry args={[0.82, 0.42, 0.85]} />
+          <meshBasicMaterial color={c.color} />
+          <Edges color="#1a1a1a" />
+        </mesh>
+      ))}
+    </group>
+  );
+}
+
 // ========= 主装饰组 =========
 const YichangDamDecorations = () => {
   return (
@@ -349,6 +543,14 @@ const YichangDamDecorations = () => {
       <DragonBoat position={[-5, -1.3, -8]} scale={1.2} />
       <DragonBoat position={[5, -1.3, -7]} scale={1.2} />
       <DragonBoat position={[0, -1.3, -6]} scale={0.9} />
+
+      {/* === NEW: ship lock + cargo/passenger/container ships for Three Gorges harbor === */}
+      <ShipLock position={[-9, -1.5, -4]} scale={0.7} />
+      <CargoShip position={[-3, -1.4, -3]} scale={1.0} rotation={[0, 0.3, 0]} />
+      <CargoShip position={[3, -1.4, -4]} scale={1.0} rotation={[0, -0.2, 0]} />
+      <PassengerShip position={[5, -1.4, -2]} scale={0.85} rotation={[0, -0.4, 0]} />
+      <PassengerShip position={[-5, -1.4, -2]} scale={0.85} rotation={[0, 0.5, 0]} />
+      <ContainerShip position={[7, -1.4, -3]} scale={0.6} rotation={[0, -0.3, 0]} />
 
       <Fish position={[-3, -1.4, -6]} color="#7ba8c0" delay={0} />
       <Fish position={[-1, -1.4, -5.5]} color="#a8c8e0" delay={1.5} />
