@@ -1,4 +1,4 @@
-﻿import { useRef, useMemo } from "react";
+import { useRef, useMemo } from "react";
 import { useFrame } from "@react-three/fiber";
 import { Edges } from "@react-three/drei";
 import * as THREE from "three";
@@ -147,23 +147,35 @@ function YangtzeRiver({ position }) {
   });
   return (
     <group ref={ref} position={position}>
+      {/* === YANGTZE RIVER EXPANDED for grandeur (80x40 main + deeper channels) === */}
       <mesh position={[0, 0, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-        <planeGeometry args={[30, 16]} />
-        <meshBasicMaterial color="#4a7a95" />
+        <planeGeometry args={[80, 40]} />
+        <meshBasicMaterial color="#3a6f8a" />
       </mesh>
-      {Array.from({ length: 18 }).map((_, i) => (
-        <mesh key={i} name="wave" position={[-12 + i * 1.4, 0.02, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-          <planeGeometry args={[0.6, 0.06]} />
+      {/* deeper mid channel */}
+      <mesh position={[0, 0.005, -2]} rotation={[-Math.PI / 2, 0, 0]}>
+        <planeGeometry args={[76, 6]} />
+        <meshBasicMaterial color="#1d3f55" transparent opacity={0.6} />
+      </mesh>
+      {/* foam streaks (denser 28 highlights) */}
+      {Array.from({ length: 28 }).map((_, i) => (
+        <mesh key={"wave-new-" + i} name="wave" position={[-38 + i * 2.8, 0.02, -10 + (i % 3) * 4]} rotation={[-Math.PI / 2, 0, 0]}>
+          <planeGeometry args={[0.9, 0.08]} />
           <meshBasicMaterial color="#ffffff" transparent opacity={0.55} />
         </mesh>
       ))}
-      <mesh position={[0, 0.01, -7]} rotation={[-Math.PI / 2, 0, 0]}>
-        <planeGeometry args={[30, 1.2]} />
-        <meshBasicMaterial color="#2a4a55" transparent opacity={0.6} />
+      {/* darker depth ridges for texture */}
+      <mesh position={[0, 0.01, -12]} rotation={[-Math.PI / 2, 0, 0]}>
+        <planeGeometry args={[78, 1.4]} />
+        <meshBasicMaterial color="#1f4762" transparent opacity={0.55} />
+      </mesh>
+      <mesh position={[0, 0.01, 8]} rotation={[-Math.PI / 2, 0, 0]}>
+        <planeGeometry args={[60, 1.2]} />
+        <meshBasicMaterial color="#2a4a55" transparent opacity={0.5} />
       </mesh>
     </group>
   );
-}
+};
 
 // ========= 龙舟 =========
 function DragonBoat({ position, rotation = [0, 0, 0], scale = 1 }) {
@@ -316,9 +328,10 @@ function Paifang({ position, scale = 1 }) {
 const YichangDamDecorations = () => {
   return (
     <group>
-      <DistantMountains z={-28} color="#7a8aa0" baseY={-1.5} count={9} h={6} w={5} opacity={0.5} />
-      <DistantMountains z={-22} color="#8a9aa8" baseY={-1.5} count={8} h={5} w={4.5} opacity={0.7} />
-      <DistantMountains z={-16} color="#a8b0bc" baseY={-1.5} count={7} h={4} w={4} opacity={0.85} />
+      {/* === DISTANT MOUNTAINS EXPANDED (denser for scale: 14 / 13 / 12 peaks) === */}
+      <DistantMountains z={-32} color="#7a8aa0" baseY={-1.5} count={14} h={7} w={5} opacity={0.5} />
+      <DistantMountains z={-25} color="#8a9aa8" baseY={-1.5} count={13} h={6} w={4.5} opacity={0.7} />
+      <DistantMountains z={-18} color="#a8b0bc" baseY={-1.5} count={12} h={4} w={4} opacity={0.85} />
 
       <YangtzeRiver position={[0, -1.6, -10]} />
 
@@ -346,38 +359,42 @@ const YichangDamDecorations = () => {
       {/* === Dam enrichment: cranes, birds, trees, sailboats, bridges, driftwood === */}
       <DamEnrichment />
 
-      {/* === Three Gorges Reservoir water surface (behind dam, roomRef-local z=-22) === */}
+      {/* === THREE GORGES RESERVOIR EXPANDED (120x60 main, 10 sub-strips) for grandeur behind dam === */}
       <group position={[0, -1.4, -22]}>
         <mesh position={[0, 0, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-          <planeGeometry args={[40, 22]} />
+          <planeGeometry args={[120, 60]} />
           <meshBasicMaterial color="#5a8fa8" side={THREE.DoubleSide} />
         </mesh>
-        {[0, 1, 2, 3, 4].map((i) => (
-          <mesh key={"rw-" + i} position={[-12 + i * 6, 0.02, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-            <planeGeometry args={[4, 18]} />
+        {/* channel ridge (mid-water) */}
+        <mesh position={[0, 0.005, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+          <planeGeometry args={[118, 4]} />
+          <meshBasicMaterial color="#366580" transparent opacity={0.5} side={THREE.DoubleSide} />
+        </mesh>
+        {/* horizontal ripple strips */}
+        {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((i) => (
+          <mesh key={"rw-" + i} position={[-50 + i * 11, 0.02, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+            <planeGeometry args={[6, 50]} />
             <meshBasicMaterial color="#7baac6" transparent opacity={0.55} side={THREE.DoubleSide} />
           </mesh>
         ))}
+        {/* foam cap ripples near dam */}
+        <mesh position={[0, 0.02, 18]} rotation={[-Math.PI / 2, 0, 0]}>
+          <planeGeometry args={[110, 6]} />
+          <meshBasicMaterial color="#9bcadb" transparent opacity={0.4} side={THREE.DoubleSide} />
+        </mesh>
       </group>
-
-      {/* === Zigui town silhouette (roomRef-local z=-40, 4 triangle cones) === */}
+      {/* === ZIGUI TOWN SILHOUETTE (z=-40, doubled to 8 peaks + curved line) === */}
       <group position={[0, 0, -40]}>
-        <mesh position={[-8, 1.2, 0]}>
-          <coneGeometry args={[2.4, 3, 3]} />
-          <meshBasicMaterial color="#5a6878" />
-        </mesh>
-        <mesh position={[-2, 0.9, 0]}>
-          <coneGeometry args={[1.8, 2.2, 3]} />
-          <meshBasicMaterial color="#6a7888" />
-        </mesh>
-        <mesh position={[4, 1.4, 0]}>
-          <coneGeometry args={[2.8, 3.6, 3]} />
-          <meshBasicMaterial color="#5a6878" />
-        </mesh>
-        <mesh position={[9, 0.8, 0]}>
-          <coneGeometry args={[2, 2.4, 3]} />
-          <meshBasicMaterial color="#6a7888" />
-        </mesh>
+        {/* original 4 cones preserved */}
+        <mesh position={[-8, 1.2, 0]}><coneGeometry args={[2.4, 3, 3]} /><meshBasicMaterial color="#5a6878" /></mesh>
+        <mesh position={[-2, 0.9, 0]}><coneGeometry args={[1.8, 2.2, 3]} /><meshBasicMaterial color="#6a7888" /></mesh>
+        <mesh position={[4, 1.4, 0]}><coneGeometry args={[2.8, 3.6, 3]} /><meshBasicMaterial color="#5a6878" /></mesh>
+        <mesh position={[9, 0.8, 0]}><coneGeometry args={[2, 2.4, 3]} /><meshBasicMaterial color="#6a7888" /></mesh>
+        {/* additional 4 peaks for richer skyline */}
+        <mesh position={[13, 1.0, 0]}><coneGeometry args={[1.6, 2.0, 3]} /><meshBasicMaterial color="#5a6878" /></mesh>
+        <mesh position={[-12, 1.1, 0]}><coneGeometry args={[1.4, 1.8, 3]} /><meshBasicMaterial color="#6a7888" /></mesh>
+        <mesh position={[6, 1.6, -1]}><coneGeometry args={[1.5, 2.3, 3]} /><meshBasicMaterial color="#5a6878" /></mesh>
+        <mesh position={[-5, 1.3, -1]}><coneGeometry args={[1.2, 1.6, 3]} /><meshBasicMaterial color="#6a7888" /></mesh>
       </group>
     </group>
   );

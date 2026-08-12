@@ -1,4 +1,4 @@
-﻿import { useRef, useMemo } from "react";
+import { useRef, useMemo } from "react";
 import { useFrame } from "@react-three/fiber";
 import { Edges } from "@react-three/drei";
 import * as THREE from "three";
@@ -249,31 +249,43 @@ function Driftwood({ position, scale = 1, delay = 0 }) {
 const DamEnrichment = () => {
   return (
     <group>
-      {/* === Cranes on dam top (3 industrial tower cranes) === */}
-      <TowerCrane position={[-6, 0, -8]} scale={1.0} armRotation={0.6} color="#e89a1a" delay={0} />
-      <TowerCrane position={[0, 0, -8]} scale={1.2} armRotation={-0.3} color="#e89a1a" delay={1.0} />
-      <TowerCrane position={[6, 0, -8]} scale={1.0} armRotation={1.4} color="#e89a1a" delay={2.0} />
+      {/* === 5 TOWER CRANES on dam top (was 3, increased for visual scale) === */}
+      <TowerCrane position={[-8, 0, -8]} scale={1.0} armRotation={0.6} color="#e89a1a" delay={0} />
+      <TowerCrane position={[-3, 0, -8]} scale={1.2} armRotation={-0.3} color="#e89a1a" delay={1.0} />
+      <TowerCrane position={[0, 0, -8]} scale={1.5} armRotation={1.4} color="#e89a1a" delay={2.0} />
+      <TowerCrane position={[4, 0, -8]} scale={1.0} armRotation={-0.9} color="#e89a1a" delay={3.0} />
+      <TowerCrane position={[8, 0, -8]} scale={1.1} armRotation={0.5} color="#e89a1a" delay={4.0} />
 
-      {/* === Birds gliding above dam === */}
-      <Birds count={6} center={[0, 6, -10]} spread={5} />
+      {/* === 14 BIRDS gliding above dam and reservoir (was 6) === */}
+      <Birds count={14} center={[0, 7, -14]} spread={8} />
 
-      {/* === Pine trees on the dam hillsides === */}
-      <Trees positions={[[-9, -0.5, -10], [-7, -0.5, -12], [9, -0.5, -10], [7, -0.5, -12]]} scale={0.9} />
-      <Trees positions={[[-14, -0.5, -16], [14, -0.5, -16], [-16, -0.5, -22], [16, -0.5, -22]]} scale={1.1} color="#5a7a58" />
+      {/* === 16 PINE TREES on dam hillsides + reservoir shores (was 8) === */}
+      <Trees positions={[[-9, -0.5, -10], [-7, -0.5, -12], [9, -0.5, -10], [7, -0.5, -12], [-11, -0.5, -14], [11, -0.5, -14]]} scale={0.9} />
+      <Trees positions={[[-14, -0.5, -16], [14, -0.5, -16], [-16, -0.5, -22], [16, -0.5, -22], [-18, -0.5, -28], [18, -0.5, -28], [-12, -0.5, -32], [12, -0.5, -32]]} scale={1.1} color="#5a7a58" />
 
-      {/* === Sail boats on reservoir === */}
+      {/* === 6 SAIL BOATS on reservoir (was 3, spread more) === */}
       <SailBoat position={[-4, -1.45, -25]} scale={1.0} color="#e89a1a" delay={0} />
       <SailBoat position={[5, -1.45, -28]} scale={0.8} color="#c41e1e" delay={2.0} />
       <SailBoat position={[-7, -1.45, -32]} scale={1.1} color="#f6efdf" delay={4.0} />
+      <SailBoat position={[8, -1.45, -34]} scale={0.9} color="#5a8db0" delay={5.5} />
+      <SailBoat position={[-10, -1.45, -38]} scale={1.2} color="#e89a1a" delay={6.5} />
+      <SailBoat position={[3, -1.45, -42]} scale={0.7} color="#c41e1e" delay={7.5} />
 
-      {/* === Distant bridges (Yichang-style) === */}
+      {/* === 4 DISTANT BRIDGES (was 2) including Xiling Yangtze Bridge anchors === */}
       <DistantBridge position={[-12, -1.4, -30]} scale={1.2} />
       <DistantBridge position={[12, -1.4, -32]} scale={1.0} />
+      <DistantBridge position={[-18, -1.4, -42]} scale={1.5} />
+      <DistantBridge position={[18, -1.4, -45]} scale={1.3} />
 
-      {/* === Driftwood on river === */}
+      {/* === 8 DRIFTWOOD on river (was 3) === */}
       <Driftwood position={[-3, -1.45, -14]} delay={0} />
       <Driftwood position={[3, -1.45, -16]} delay={1.5} />
       <Driftwood position={[0, -1.45, -18]} delay={3.0} />
+      <Driftwood position={[-5, -1.45, -20]} delay={4.5} />
+      <Driftwood position={[5, -1.45, -22]} delay={5.5} />
+      <Driftwood position={[-2, -1.45, -24]} delay={6.5} />
+      <Driftwood position={[2, -1.45, -26]} delay={7.5} />
+      <Driftwood position={[-4, -1.45, -28]} delay={8.5} />
     </group>
   );
 };

@@ -203,8 +203,9 @@ const DamFlightRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
       }
     }
 
-    scrollVelocity.current *= 0.94;
-    scrollPosition.current += scrollVelocity.current * delta * 10;
+    // === FASTER FLIGHT: gentler decay + bigger time multiplier so the user feels real motion ===
+    scrollVelocity.current *= 0.985;
+    scrollPosition.current += scrollVelocity.current * delta * 18;
 
     if (scrollPosition.current < 0) {
       scrollPosition.current = 0;
@@ -311,7 +312,8 @@ const DamFlightRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
   useEffect(() => {
     const handleWheel = (e) => {
       if (overlayRef.current) return;
-      scrollVelocity.current += e.deltaY * 0.002;
+      // === FASTER WHEEL RESPONSE: more velocity per wheel tick ===
+      scrollVelocity.current += e.deltaY * 0.005;
     };
     window.addEventListener("wheel", handleWheel, { passive: true });
     return () => window.removeEventListener("wheel", handleWheel);
@@ -353,9 +355,9 @@ const DamFlightRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
         />
       )}
 
-      {/* \u7eb8\u98de\u673a */}
-      <group ref={airplaneGroupRef} position={[0, -0.3, -3]}>
-        <PaperAirplane scale={1.2} color="#5a8db0" />
+      {/* === PAPER AIRPLANE: hero element of the flight, larger and white so it stays visible === */}
+      <group ref={airplaneGroupRef} position={[0, 0.6, -2.5]}>
+        <PaperAirplane scale={2.2} color="#ffffff" />
       </group>
 
       {/* \u98de\u884c\u5929\u7a7a + \u4e91\u6735 + 4 \u4e2a\u5927\u575d milestone */}
