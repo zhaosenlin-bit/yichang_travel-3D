@@ -2,6 +2,7 @@
 import { useFrame } from "@react-three/fiber";
 import { Edges } from "@react-three/drei";
 import * as THREE from "three";
+import DamEnrichment from "./DamEnrichment";
 
 // ========= 远景水墨山 (painted mountain planes) =========
 function DistantMountains({ z, color, baseY = -1.5, count = 8, h = 4, w = 6, opacity = 1 }) {
@@ -341,6 +342,9 @@ const YichangDamDecorations = () => {
       <Fish position={[2, -1.4, -6.5]} color="#5a8db0" delay={2.8} />
 
       <Clouds count={12} yRange={[3, 7]} zRange={[-7, -3]} />
+
+      {/* === Dam enrichment: cranes, birds, trees, sailboats, bridges, driftwood === */}
+      <DamEnrichment />
 
       {/* === Three Gorges Reservoir water surface (behind dam, roomRef-local z=-22) === */}
       <group position={[0, -1.4, -22]}>

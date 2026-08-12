@@ -99,6 +99,15 @@ const DoorSection = ({
     const [isInsideRoom, setIsInsideRoom] = useState(false);
     const [isTiltLocked, setIsTiltLocked] = useState(false); // Lock tilt when entering room
     const [shouldRenderRoom, setShouldRenderRoom] = useState(false); // Lazy loading state
+    // === DEV API: expose door click trigger for testing ===
+    if (typeof window !== "undefined") {
+      if (!window.__devDoors) window.__devDoors = {};
+      if (roomId) {
+        window.__devDoors[roomId] = {
+          click: () => handleClick({ stopPropagation: () => {}, isTeleport: true }),
+        };
+      }
+    }
     const [roomReady, setRoomReady] = useState(false); // Room signaled it's ready
     const { camera } = useThree();
     const closeTimerRef = useRef(null);

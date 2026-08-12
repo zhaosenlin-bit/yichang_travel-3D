@@ -107,9 +107,18 @@ const DamFlightRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
 
   // Reset camera to face dam head-on right after the door fly-through lands.
   // Without this the camera keeps DOOR_LOOK_ANGLE and the dam scene renders to the side.
+  // === ADAPTIVE: anchor camera 10u in front of the dam in WORLD -Z direction ===
+  // The dam world position varies because DoorSection groupRef rotates +60deg and
+  // CorridorSegment positions differ per door. Instead of a hardcoded entry,
+  // measure roomRef.getWorldPosition() and place the camera 10 units back along +Z.
   useEffect(() => {
     if (isWarmup || isTeleporting) return;
-    if (currentRoom !== 'gallery') return;
+    if (currentRoom !== "gallery") return;
+    if (roomRef.current) {
+      const wp = new THREE.Vector3();
+      roomRef.current.getWorldPosition(wp);
+      entryCameraPos.current = { x: wp.x, y: wp.y + 1.55, z: wp.z + 10 };
+    }
     camera.position.set(entryCameraPos.current.x, entryCameraPos.current.y, entryCameraPos.current.z);
     camera.rotation.set(0, 0, 0);
     scrollPosition.current = 0;
