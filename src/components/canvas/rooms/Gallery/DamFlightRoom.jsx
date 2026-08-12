@@ -2,6 +2,7 @@
 import { useFrame, useThree } from "@react-three/fiber";
 import { Text, PositionalAudio } from "@react-three/drei";
 import * as THREE from "three";
+import gsap from "gsap";
 import PaperAirplane from "../About/PaperAirplane";
 import InfiniteSkyManager from "../About/InfiniteSkyManager";
 import YichangDamDecorations from "./YichangDamDecorations";
@@ -119,8 +120,27 @@ const DamFlightRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
       roomRef.current.getWorldPosition(wp);
       entryCameraPos.current = { x: wp.x, y: wp.y + 1.55, z: wp.z + 10 };
     }
-    camera.position.set(entryCameraPos.current.x, entryCameraPos.current.y, entryCameraPos.current.z);
-    camera.rotation.set(0, 0, 0);
+    // === SMOOTH RESET: gsap tween replaces instantaneous .set() so entry never "teleports" ===
+    // Cancel any in-flight camera animation from prior transitions (DoorSection alignment
+    // or previous room reset) so we never stack competing tweens on the same object.
+    gsap.killTweensOf(camera.position);
+    gsap.killTweensOf(camera.rotation);
+    gsap.to(camera.position, {
+      x: entryCameraPos.current.x,
+      y: entryCameraPos.current.y,
+      z: entryCameraPos.current.z,
+      duration: 1.5,
+      ease: "power2.inOut",
+      overwrite: "auto"
+    });
+    gsap.to(camera.rotation, {
+      x: 0,
+      y: 0,
+      z: 0,
+      duration: 1.5,
+      ease: "power2.inOut",
+      overwrite: "auto"
+    });
     scrollPosition.current = 0;
     scrollVelocity.current = 0;
     isFlightActive.current = false;
