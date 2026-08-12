@@ -89,6 +89,12 @@ const DamFlightRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
   const currentBank = useRef(0);
   const currentPitch = useRef(0);
 
+  // === FREE-LOOK: user-driven yaw/pitch accumulated via drag, lerped by useFrame ===
+  // Reset yaw/pitch in the entry effect so they always match the head-on view;
+  // pointer handlers below add deltas here; useFrame lerps camera.rotation toward these
+  // in both flight and idle mode so drag stays interactive during scroll-flight.
+  const userLookRef = useRef({ yaw: 0, pitch: 0, dragging: false, lastX: 0, lastY: 0 });
+
   const roomRef = useRef();
   const airplaneGroupRef = useRef();
 
@@ -133,6 +139,9 @@ const DamFlightRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
       const lookMatrix = new THREE.Matrix4().lookAt(camWorld, damWorld, new THREE.Vector3(0, 1, 0));
       const yawEuler = new THREE.Euler().setFromRotationMatrix(lookMatrix, "YXZ");
       entryYaw = yawEuler.y;
+      // === DRAG-AWARE RESET: seed user-look ref so initial pose matches head-on dam view ===
+      userLookRef.current.yaw = entryYaw;
+      userLookRef.current.pitch = 0;
     }
     // === SMOOTH RESET: gsap tween replaces instantaneous .set() so entry never "teleports" ===
     // Cancel any in-flight camera animation from prior transitions (DoorSection alignment
@@ -227,12 +236,18 @@ const DamFlightRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
       camera.position.z = THREE.MathUtils.lerp(camera.position.z, entryCameraPos.current.z - dz, posLerp);
       camera.position.y = THREE.MathUtils.lerp(camera.position.y, entryCameraPos.current.y + dy, posLerp);
       camera.position.x = THREE.MathUtils.lerp(camera.position.x, entryCameraPos.current.x, posLerp);
-      camera.rotation.x = THREE.MathUtils.lerp(camera.rotation.x, targetPitch, rotLerp);
-      camera.rotation.y = THREE.MathUtils.lerp(camera.rotation.y, 0, rotLerp);
+      // === DRAG-AWARE ROTATION: lerp targets now respect userLookRef so drag works during flight ===
+      camera.rotation.x = THREE.MathUtils.lerp(camera.rotation.x, targetPitch + userLookRef.current.pitch, rotLerp);
+      camera.rotation.y = THREE.MathUtils.lerp(camera.rotation.y, userLookRef.current.yaw, rotLerp);
       camera.rotation.z = 0;
     } else {
       currentBank.current = 0;
       currentPitch.current = 0;
+      // === DRAG-AWARE IDLE: lerp camera rotation toward userLookRef so drag feels instant ===
+      const idleLerp = 1 - Math.pow(0.05, delta);
+      camera.rotation.y = THREE.MathUtils.lerp(camera.rotation.y, userLookRef.current.yaw, idleLerp);
+      camera.rotation.x = THREE.MathUtils.lerp(camera.rotation.x, userLookRef.current.pitch, idleLerp);
+      camera.rotation.z = 0;
     }
 
     if (airplaneGroupRef.current) {
@@ -240,6 +255,58 @@ const DamFlightRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
       airplaneGroupRef.current.rotation.z = -currentBank.current * 2;
     }
   });
+
+  // === FREE-LOOK: pointerdown/move/up handlers to accumulate drag deltas into userLookRef ===
+  // Only active when currentRoom is "gallery" (dam room); ignored in corridor/other rooms.
+  useEffect(() => {
+    const onPointerDown = (e) => {
+      if (currentRoom !== "gallery") return;
+      // Only primary button (left mouse / first touch)
+      if (e.pointerType === "mouse" && e.button !== 0) return;
+      // Ignore drags that start on UI buttons (back, audio, achievements)
+      if (e.target && e.target.closest && e.target.closest("button, a, input, .ignore-drag")) return;
+      userLookRef.current.dragging = true;
+      userLookRef.current.lastX = e.clientX;
+      userLookRef.current.lastY = e.clientY;
+      try { document.body.style.cursor = "grabbing"; } catch (_) {}
+    };
+    const onPointerMove = (e) => {
+      if (!userLookRef.current.dragging) return;
+      const dx = e.clientX - userLookRef.current.lastX;
+      const dy = e.clientY - userLookRef.current.lastY;
+      userLookRef.current.lastX = e.clientX;
+      userLookRef.current.lastY = e.clientY;
+      // Apply deltas. dx>0 -> drag right -> yaw decreases (look left of dam); invert so drag feels natural.
+      const YAW_PER_PX = 0.005;
+      const PITCH_PER_PX = 0.005;
+      userLookRef.current.yaw -= dx * YAW_PER_PX;
+      userLookRef.current.pitch = Math.max(-1.2, Math.min(1.2, userLookRef.current.pitch - dy * PITCH_PER_PX));
+    };
+    const onPointerUp = () => {
+      if (!userLookRef.current.dragging) return;
+      userLookRef.current.dragging = false;
+      if (currentRoom === "gallery") {
+        try { document.body.style.cursor = "grab"; } catch (_) {}
+      }
+    };
+    window.addEventListener("pointerdown", onPointerDown);
+    window.addEventListener("pointermove", onPointerMove);
+    window.addEventListener("pointerup", onPointerUp);
+    window.addEventListener("pointercancel", onPointerUp);
+    return () => {
+      window.removeEventListener("pointerdown", onPointerDown);
+      window.removeEventListener("pointermove", onPointerMove);
+      window.removeEventListener("pointerup", onPointerUp);
+      window.removeEventListener("pointercancel", onPointerUp);
+    };
+  }, [currentRoom]);
+
+  // Cursor hint: show grab cursor while in the dam room.
+  useEffect(() => {
+    try {
+      document.body.style.cursor = currentRoom === "gallery" ? "grab" : "";
+    } catch (_) {}
+  }, [currentRoom]);
 
   useEffect(() => {
     const handleWheel = (e) => {
