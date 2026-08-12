@@ -1,4 +1,4 @@
-锘縤mport { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import { Text, PositionalAudio } from "@react-three/drei";
 import * as THREE from "three";
@@ -115,10 +115,24 @@ const DamFlightRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
   useEffect(() => {
     if (isWarmup || isTeleporting) return;
     if (currentRoom !== "gallery") return;
+    let entryYaw = 0;
     if (roomRef.current) {
-      const wp = new THREE.Vector3();
-      roomRef.current.getWorldPosition(wp);
-      entryCameraPos.current = { x: wp.x, y: wp.y + 1.55, z: wp.z + 10 };
+      roomRef.current.updateWorldMatrix(true, false);
+      // === ADAPTIVE ENTRY V2: camera anchors in front of DamStructure ===
+      // DamStructure is at room-local (0,0,-8); DoorSection groupRef rotates ~+/-90deg+tilt,
+      // so a naive `wp + (0, 1.55, 10)` puts the camera in world -Z of wp but DamStructure
+      // sits at a rotated direction. Instead transform (0,0,10) and (0,0,-8) via localToWorld
+      // so both camera offset and "look dam" target inherit the groupRef rotation.
+      const damWorld = new THREE.Vector3(0, 0, -8);
+      roomRef.current.localToWorld(damWorld);
+      const camWorld = new THREE.Vector3(0, 0, 10);
+      roomRef.current.localToWorld(camWorld);
+      entryCameraPos.current = { x: camWorld.x, y: camWorld.y + 1.55, z: camWorld.z };
+
+      // Compute yaw that points camera at dam center, level pitch/bank (roll=0)
+      const lookMatrix = new THREE.Matrix4().lookAt(camWorld, damWorld, new THREE.Vector3(0, 1, 0));
+      const yawEuler = new THREE.Euler().setFromRotationMatrix(lookMatrix, "YXZ");
+      entryYaw = yawEuler.y;
     }
     // === SMOOTH RESET: gsap tween replaces instantaneous .set() so entry never "teleports" ===
     // Cancel any in-flight camera animation from prior transitions (DoorSection alignment
@@ -135,7 +149,7 @@ const DamFlightRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
     });
     gsap.to(camera.rotation, {
       x: 0,
-      y: 0,
+      y: entryYaw,
       z: 0,
       duration: 1.5,
       ease: "power2.inOut",
@@ -199,8 +213,8 @@ const DamFlightRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
 
     if (isFlightActive.current) {
       // === 2-PHASE LONG SHOT (v3 spec) ===
-      // Phase 1 (0-130 scroll): 鎺ㄨ繘 22, 涓婂崌 1.5, pitch -0.05 (鎺ヨ繎澶у潩)
-      // Phase 2 (130-200 scroll): 鍐嶆帹 6, 涓婂崌 5, pitch -> -0.18 (涓婂崌淇灠)
+      // Phase 1 (0-130 scroll): 推进 22, 上升 1.5, pitch -0.05 (接近大坝)
+      // Phase 2 (130-200 scroll): 再推 6, 上升 5, pitch -> -0.18 (上升俯瞰)
       const phase1T = Math.min(1, scrollPosition.current / 130);
       const phase2T = Math.max(0, Math.min(1, (scrollPosition.current - 130) / 70));
       const dz = phase1T * 22 + phase2T * 6;
