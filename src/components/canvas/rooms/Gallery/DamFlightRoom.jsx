@@ -78,7 +78,17 @@ const DamFlightRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
 
   const hasSignaledReady = useRef(false);
   const frameCount = useRef(0);
-  const FRAMES_TO_WAIT = 25;
+  const FRAMES_TO_WAIT = 5;
+
+  // === EARLY-READY: signal onReady immediately on mount so DoorSection handleRoomReady runs BEFORE the 8s fallback timeout ===
+  // useFrame may not tick for many seconds while Suspense resolves heavy textures/audio; waiting for FRAMES_TO_WAIT is unsafe.
+  // Guard with hasSignaledReady so we never double-fire when the useFrame branch later reaches FRAMES_TO_WAIT.
+  useEffect(() => {
+    if (isWarmup) return;
+    if (hasSignaledReady.current) return;
+    hasSignaledReady.current = true;
+    onReady?.();
+  }, [onReady, isWarmup]);
 
   const scrollPosition = useRef(0);
   const scrollVelocity = useRef(0);
