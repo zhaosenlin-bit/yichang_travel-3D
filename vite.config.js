@@ -5,6 +5,7 @@ import { generateSeoHtml } from './seo-plugin.js';
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: '/yichang_travel-3D/',
   plugins: [react(), viteCompression(), generateSeoHtml()],
   server: {
     proxy: {

@@ -17,7 +17,7 @@ export const urlFor = (source) => builder.image(source);
 export const getProxyUrl = (imageBuilder) => {
     if (!imageBuilder) return null;
     const url = imageBuilder.url();
-    if (url && typeof window !== 'undefined') {
+    if (url && typeof window !== 'undefined' && import.meta.env.DEV) {
         return url.replace('https://cdn.sanity.io', '/sanity-cdn');
     }
     return url;
