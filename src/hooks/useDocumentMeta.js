@@ -9,6 +9,8 @@ import { useScene } from '../context/SceneContext';
  * browser back/forward buttons for seamless navigation.
  */
 
+const BASE = (import.meta.env.BASE_URL || '/').replace(/\/$/, '');
+
 const ROOM_META = {
     null: {
         path: '/',
@@ -52,8 +54,9 @@ const PATH_TO_ROOM = {
  * Call this once at app startup to determine if we need to auto-teleport.
  */
 export function getInitialRoomFromUrl() {
-    const path = window.location.pathname.replace(/\/+$/, '') || '/';
-    return PATH_TO_ROOM[path] !== undefined ? PATH_TO_ROOM[path] : null;
+    const path = window.location.pathname;
+    const clean = (BASE && path.startsWith(BASE) ? path.slice(BASE.length) : path).replace(/\/+$/, '') || '/';
+    return PATH_TO_ROOM[clean] !== undefined ? PATH_TO_ROOM[clean] : null;
 }
 
 export function useDocumentMeta() {
@@ -83,21 +86,21 @@ export function useDocumentMeta() {
         if (ogDesc) ogDesc.setAttribute('content', meta.description);
 
         const ogUrl = document.querySelector('meta[property="og:url"]');
-        if (ogUrl) ogUrl.setAttribute('content', `https://itomdev.com${meta.path}`);
+        if (ogUrl) ogUrl.setAttribute('content', `${window.location.origin}${BASE}${meta.path}`);
 
         // Update canonical link to ensure virtual routes are correctly indexable as separate pages
         const canonicalTag = document.querySelector('link[rel="canonical"]');
         if (canonicalTag) {
-            canonicalTag.setAttribute('href', `https://itomdev.com${meta.path}`);
+            canonicalTag.setAttribute('href', `${window.location.origin}${BASE}${meta.path}`);
         }
 
         // Push to browser history (only if not handling a popstate event and room actually changed)
         if (!isHandlingPopState.current && lastPushedRoom.current !== currentRoom) {
             // Use replaceState for the very first load, pushState for subsequent navigations
             if (lastPushedRoom.current === undefined) {
-                window.history.replaceState({ room: currentRoom }, '', meta.path);
+                window.history.replaceState({ room: currentRoom }, '', `${BASE}${meta.path}`);
             } else {
-                window.history.pushState({ room: currentRoom }, '', meta.path);
+                window.history.pushState({ room: currentRoom }, '', `${BASE}${meta.path}`);
             }
             lastPushedRoom.current = currentRoom;
         }
