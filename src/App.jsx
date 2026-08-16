@@ -13,6 +13,7 @@ import NavigationUI from './components/ui/NavigationUI';
 import GlobalOverlay from './components/ui/GlobalOverlay';
 import ScreenReaderOverlay from './components/ui/ScreenReaderOverlay';
 import { useDocumentMeta } from './hooks/useDocumentMeta';
+import { SceneErrorBoundary, WebGLFallback, isWebGLAvailable } from './components/ui/SceneFallback';
 import posthog from 'posthog-js';
 import { loadSanityData } from './hooks/useSanityData';
 
@@ -167,8 +168,7 @@ function AppContent() {
                 antialias: settings.antialias,
                 alpha: false,
                 powerPreference: settings.powerPreference,
-                localClippingEnabled: true,
-                failIfMajorPerformanceCaveat: true
+                localClippingEnabled: true
               }}
               dpr={settings.dpr}
               shadows={settings.shadows}
@@ -220,6 +220,9 @@ function AppContent() {
 
 import { AchievementsProvider } from './context/AchievementsContext';
 
+// Pre-check WebGL support so we can show a readable fallback instead of a blank screen.
+const webglSupported = isWebGLAvailable();
+
 export default function App() {
   // Preload browser-based images (for standard <img> tags) immediately upon mounting App
   // This ensures they are in the network waterfall during the initial loading phase.
@@ -235,7 +238,13 @@ export default function App() {
   return (
     <PerformanceProvider>
       <AchievementsProvider>
-        <AppContent />
+        {webglSupported ? (
+          <SceneErrorBoundary>
+            <AppContent />
+          </SceneErrorBoundary>
+        ) : (
+          <WebGLFallback />
+        )}
       </AchievementsProvider>
     </PerformanceProvider>
   );
