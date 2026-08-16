@@ -54,7 +54,11 @@ export function loadSanityData() {
 
     fetchPromise = (async () => {
         try {
-            const [projectsData, contentData, awardsData] = await Promise.all([
+            const sanityTimeout = new Promise((_, reject) =>
+                setTimeout(() => reject(new Error('Sanity fetch timed out')), 8000)
+            );
+            const [projectsData, contentData, awardsData] = await Promise.race([
+                Promise.all([
                 // 1. Projects (Galeria)
                 sanityClient.fetch(`
                     *[_type == "galleryProject"] {
@@ -93,6 +97,8 @@ export function loadSanityData() {
                         url
                     } | order(date desc)
                 `)
+                ]),
+                sanityTimeout,
             ]);
 
             // Mapowanie danych galerii i techStack na ścieżki lokalne oraz optymalizacja obrazków z Sanity

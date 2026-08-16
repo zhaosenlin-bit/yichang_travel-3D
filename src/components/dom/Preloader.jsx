@@ -158,7 +158,9 @@ const Preloader = ({ onComplete, ready }) => {
 
   // Track visual progress entirely in refs to skip React renders 60x/sec!
   const [targetProgress, setTargetProgress] = useState(0);
+  const [forceComplete, setForceComplete] = useState(false);
   const displayProgressRef = useRef(0);
+  const forceCompleteRef = useRef(false);
   const trackerRef = useRef({ val: 0 });
   const readyRef = useRef(ready);
 
@@ -210,16 +212,14 @@ const Preloader = ({ onComplete, ready }) => {
     let newTarget = 0;
     if (active) {
       newTarget = (realProgress / 100) * 85;
+    } else if (ready || forceComplete) {
+      newTarget = 100;
     } else {
-      if (ready) {
-        newTarget = 100;
-      } else {
-        newTarget = 90;
-      }
+      newTarget = 90;
     }
 
     setTargetProgress(prev => Math.max(prev, newTarget));
-  }, [realProgress, active, ready]);
+  }, [realProgress, active, ready, forceComplete]);
 
   // Handle Pencil Sound & Exit checking dynamically
   const checkProgressTriggers = (val) => {
@@ -233,7 +233,7 @@ const Preloader = ({ onComplete, ready }) => {
     }
 
     // Exit phase
-    if (val >= 99.5 && readyRef.current && !exitStarted.current) {
+    if (val >= 99.5 && (readyRef.current || forceCompleteRef.current) && !exitStarted.current) {
       exitStarted.current = true;
       startExit();
     }
@@ -300,6 +300,24 @@ const Preloader = ({ onComplete, ready }) => {
       startExit();
     }
   }, [ready]);
+
+  // Fallback: once the scene is ready, force the progress bar to finish
+  // even if some textures failed to load (LoadingManager may never reach 100%).
+  useEffect(() => {
+    if (!ready) return;
+    const t = setTimeout(() => setTargetProgress(prev => Math.max(prev, 100)), 1200);
+    return () => clearTimeout(t);
+  }, [ready]);
+
+  // Absolute safety: never trap the user on the loader screen.
+  useEffect(() => {
+    const t = setTimeout(() => {
+      forceCompleteRef.current = true;
+      setForceComplete(true);
+      setTargetProgress(prev => Math.max(prev, 100));
+    }, 20000);
+    return () => clearTimeout(t);
+  }, []);
 
   const startExit = () => {
     exitStarted.current = true;
