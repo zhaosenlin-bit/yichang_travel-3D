@@ -8,7 +8,10 @@ const DOOR_POSITIONS_Z = {
     'gallery': -6,   // 10 - 18 + 2
     'studio': -20,   // 10 - 32 + 2
     'about': -36,    // 10 - 48 + 2
-    'contact': -50   // 10 - 62 + 2
+    'contact': -50,  // 10 - 62 + 2
+    'computer': -14,   // 10 - 26 + 2
+    'panorama': -44,   // 10 - 56 + 2
+    'collection': -58  // 10 - 70 + 2
 };
 
 /**

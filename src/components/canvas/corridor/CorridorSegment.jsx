@@ -89,7 +89,39 @@ const CorridorSegment = ({
                 icon: '✉',
                 color: '#f5e6e6'
             },
-        ,
+            {
+                id: `computer-${segmentIndex}`,
+                roomId: 'computer',
+                relativeZ: -26,
+                side: 'right',
+                label: '电脑博物馆',
+                labelEn: 'retro computer museum',
+                subLabel: '1980s 数字记忆 · 致敬复古计算机',
+                icon: '▣',
+                color: '#e8eef6'
+            },
+            {
+                id: `panorama-${segmentIndex}`,
+                roomId: 'panorama',
+                relativeZ: -56,
+                side: 'left',
+                label: '全景三峡',
+                labelEn: '360 panorama',
+                subLabel: '云上三峡 · 360° 环视大坝',
+                icon: '◎',
+                color: '#e6f6ee'
+            },
+            {
+                id: `collection-${segmentIndex}`,
+                roomId: 'collection',
+                relativeZ: -70,
+                side: 'right',
+                label: '文物展厅',
+                labelEn: 'heritage gallery',
+                subLabel: '巴楚文物 · 数字典藏展厅',
+                icon: '❖',
+                color: '#f6efe0'
+            },
             {
                 id: `map-${segmentIndex}`,
                 roomId: 'map',

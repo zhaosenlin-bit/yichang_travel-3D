@@ -14,8 +14,8 @@ const BASE = (import.meta.env.BASE_URL || '/').replace(/\/$/, '');
 const ROOM_META = {
     null: {
         path: '/',
-        title: 'ITom — Creative 3D Portfolio',
-        description: 'Interactive 3D developer portfolio by Tomasz "ITom" Szmajda. Explore WebGL experiments, React projects & GSAP animations in a hand-drawn gallery.',
+        title: '宜昌旅游 3D | 数字博物馆',
+        description: '沉浸式 3D 漫游宜昌：三峡大坝、宜昌博物馆、巴楚文物数字展厅、全景三峡与复古电脑博物馆。',
     },
     about: {
         path: '/about',
@@ -37,6 +37,21 @@ const ROOM_META = {
         title: 'Contact — ITom Portfolio',
         description: 'Get in touch with Tomasz "ITom" Szmajda. Find social media links and contact information in this interactive 3D contact room.',
     },
+    panorama: {
+        path: '/panorama',
+        title: '全景三峡 — 宜昌旅游3D',
+        description: '360° 全景环视三峡大坝，拖拽环视 · 滚轮缩放，云上三峡高峡出平湖。',
+    },
+    collection: {
+        path: '/collection',
+        title: '文物展厅 — 宜昌旅游3D',
+        description: '巴楚文物数字典藏展厅：青铜鼎、玉璧、青花瓷、编钟与漆器。',
+    },
+    computer: {
+        path: '/computer',
+        title: '电脑博物馆 — 宜昌旅游3D',
+        description: '复古电脑博物馆：苹果 II、长城 PC、红白机、掌机与大型计算机。',
+    },
 };
 
 // Map URL paths back to room IDs for deep linking
@@ -47,6 +62,9 @@ const PATH_TO_ROOM = {
     '/studio': 'studio',
     '/contact': 'contact',
     '/map': 'map',
+    '/panorama': 'panorama',
+    '/collection': 'collection',
+    '/computer': 'computer',
 };
 
 /**

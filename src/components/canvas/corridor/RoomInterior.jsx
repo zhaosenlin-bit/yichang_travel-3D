@@ -9,6 +9,9 @@ import StudioRoom from '../rooms/Studio/StudioRoom';
 import AboutRoom from '../rooms/About/AboutRoom';
 import ContactRoom from '../rooms/Contact/ContactRoom';
 import MapRoom from '../rooms/Map/MapRoom';
+import PanoramaRoom from '../rooms/Panorama/PanoramaRoom';
+import CollectionRoom from '../rooms/Collection/CollectionRoom';
+import ComputerMuseumRoom from '../rooms/Computer/ComputerMuseumRoom';
 
 // Room configurations
 const ROOM_CONFIG = {
@@ -27,7 +30,7 @@ const SUBTITLES = {
     "LET'S CONNECT": 'Get in touch with me'
 };
 
-// Naturalny kafelek listwy: 1582x94px przy wysokości 0.15 �?~2.524 units szerokości
+// Naturalny kafelek listwy: 1582x94px przy wysokości 0.15 �?~2.524 units szerokości
 const NATURAL_TILE_W = (1582 / 94) * 0.15;
 
 /**
@@ -126,7 +129,10 @@ const RoomInterior = memo(({ roomId, label, showRoom, onReady, isExiting }) => {
     const isAbout = roomId === 'about';
     const isContact = roomId === 'contact';
     const isMap = roomId === 'map';
-    const isYichangRoom = isGallery || isStudio || isAbout || isContact || isMap;
+    const isPanorama = roomId === 'panorama';
+    const isCollection = roomId === 'collection';
+    const isComputer = roomId === 'computer';
+    const isYichangRoom = isGallery || isStudio || isAbout || isContact || isMap || isPanorama || isCollection || isComputer;
 
     // Trigger onReady for generic rooms (which don't have their own component to do it)
     useEffect(() => {
@@ -231,6 +237,27 @@ const RoomInterior = memo(({ roomId, label, showRoom, onReady, isExiting }) => {
                         <group position={[0, -0.5, -corridorDepth]}>
                             <Suspense fallback={null}>
                                 <MapRoom showRoom={showRoom} onReady={onReady} isExiting={isExiting} />
+                            </Suspense>
+                        </group>
+                    ) : isPanorama ? (
+                        // === 360 PANORAMA ROOM ===
+                        <group position={[0, -0.5, -corridorDepth]}>
+                            <Suspense fallback={null}>
+                                <PanoramaRoom showRoom={showRoom} onReady={onReady} isExiting={isExiting} />
+                            </Suspense>
+                        </group>
+                    ) : isCollection ? (
+                        // === HERITAGE COLLECTION ROOM ===
+                        <group position={[0, -0.5, -corridorDepth]}>
+                            <Suspense fallback={null}>
+                                <CollectionRoom showRoom={showRoom} onReady={onReady} isExiting={isExiting} />
+                            </Suspense>
+                        </group>
+                    ) : isComputer ? (
+                        // === RETRO COMPUTER MUSEUM ROOM ===
+                        <group position={[0, -0.5, -corridorDepth]}>
+                            <Suspense fallback={null}>
+                                <ComputerMuseumRoom showRoom={showRoom} onReady={onReady} isExiting={isExiting} />
                             </Suspense>
                         </group>
                     ) : (

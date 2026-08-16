@@ -7,6 +7,9 @@ import StudioRoom from '../rooms/Studio/StudioRoom';
 import AboutRoom from '../rooms/About/AboutRoom';
 import ContactRoom from '../rooms/Contact/ContactRoom';
 import MapRoom from '../rooms/Map/MapRoom';
+import PanoramaRoom from '../rooms/Panorama/PanoramaRoom';
+import CollectionRoom from '../rooms/Collection/CollectionRoom';
+import ComputerMuseumRoom from '../rooms/Computer/ComputerMuseumRoom';
 import { isSanityDataLoaded } from '../../../hooks/useSanityData';
 
 /**
@@ -105,6 +108,21 @@ const RoomWarmup = ({ onWarmupComplete, isLowTier }) => {
             <Suspense fallback={null}>
                 <group position={[20, 0, -50]}>
                     <ContactRoom showRoom={true} onReady={noop} isExiting={false} isWarmup={true} />
+                </group>
+            </Suspense>
+            <Suspense fallback={null}>
+                <group position={[-20, 0, -100]}>
+                    <PanoramaRoom showRoom={true} onReady={noop} isExiting={false} isWarmup={true} />
+                </group>
+            </Suspense>
+            <Suspense fallback={null}>
+                <group position={[20, 0, -100]}>
+                    <CollectionRoom showRoom={true} onReady={noop} isExiting={false} isWarmup={true} />
+                </group>
+            </Suspense>
+            <Suspense fallback={null}>
+                <group position={[-20, 0, -150]}>
+                    <ComputerMuseumRoom showRoom={true} onReady={noop} isExiting={false} isWarmup={true} />
                 </group>
             </Suspense>
         </group>
