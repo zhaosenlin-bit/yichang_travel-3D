@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>宜昌旅游 3D | 数字博物馆</title>
+    <script>
+      // GitHub Pages SPA fallback:
+      // Direct loads of virtual routes (e.g. /yichang_travel-3D/collection) return 404
+      // because GitHub Pages has no rewrite rules. Save the deep link, then load the
+      // app shell at the base path; the app restores the room from sessionStorage.
+      (function () {
+        try {
+          sessionStorage.setItem('yichang-deeplink', location.pathname + location.search);
+        } catch (e) { /* storage unavailable - just load the home page */ }
+        location.replace('/yichang_travel-3D/');
+      })();
+    </script>
+  </head>
+  <body></body>
+</html>
